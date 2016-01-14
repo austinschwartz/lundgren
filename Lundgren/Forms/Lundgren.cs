@@ -15,70 +15,74 @@ namespace Lundgren
 {
     public partial class Lundgren : Form
     {
-
         private readonly Timer _timer = new Timer();
         public static Memory Mem = null;
-        public static int lastFrameNum = 0;
+        public static int LastFrameNum = 0;
         private MoveQueue queue = new MoveQueue();
-        public ControllerState state, prev;
+        public ControllerState State, Prev;
 
         public Lundgren()
         {
             queue = new MoveQueue();
-            prev = new ControllerState(-1);
+            Prev = new ControllerState(-1);
             InitializeComponent();
 
             _timer.Interval = 1;
             _timer.Elapsed += new ElapsedEventHandler(TimerTick);
             _timer.Enabled = true;
 
-            _driver = new Driver(this);
+            Driver = new Driver(this);
             Driver.DriverLog += Log;
             Driver.InputLog += Log;
             JoystickHelper.JoystickLog += Log;
         }
         
-        public Driver Driver
-        {
-            get { return _driver; }
-        }
+        public Driver Driver { get; }
 
-        private bool processMoves()
+        private bool ProcessMoves()
         {
-            int thisFrameNum = GameState.GetFrame();
-            if (thisFrameNum == lastFrameNum)
+            var thisFrameNum = GameState.GetFrame();
+            if (thisFrameNum == LastFrameNum)
                 return false;
 
             //Debug.WriteLine("ON FRAME " + thisFrameNum);
-            if (thisFrameNum != lastFrameNum + 1)
-                Debug.WriteLine("Lost frames between " + lastFrameNum + " and " + thisFrameNum);
+            if (thisFrameNum != LastFrameNum + 1)
+                Debug.WriteLine($"Lost frames between { LastFrameNum } and { thisFrameNum }");
 
-            lastFrameNum = thisFrameNum;
-            prev = state;
+            LastFrameNum = thisFrameNum;
+            Prev = State;
             if (queue.HasFrame(thisFrameNum))
             {
-                Debug.WriteLine("PERFORMING ON " + thisFrameNum);
-                state = queue.Get(thisFrameNum);
-                bool rem = queue.Remove(thisFrameNum);
-                LogFrameState(thisFrameNum, state, rem);
+                Debug.WriteLine($"Performing move on frame { thisFrameNum }");
+                State = queue.Get(thisFrameNum);
+                var rem = queue.Remove(thisFrameNum);
+                LogFrameState(thisFrameNum, State, rem);
             }
             else
             {
-                state = new ControllerState(lastFrameNum);
+                State = new ControllerState(LastFrameNum);
             }
             return true;
         }
 
         private void LogFrameState(int frameNum, ControllerState controllerState, bool rem)
         {
-            Log(null, new Logging.LogEventArgs("F: " + (rem ? frameNum.ToString() : "BROKE") + " - " + controllerState.ToString()));
+            if (!rem)
+                Log(null, new Logging.LogEventArgs($"Something went wrong on frame { frameNum }"));
+            else
+                Log(null, new Logging.LogEventArgs($"F: { frameNum } - { controllerState }"));
         }
         
         void TimerTick(Object sender, EventArgs e)
         {
             // only pass this point if its a new frame
-            if (processMoves() == false)
+            if (ProcessMoves() == false)
                 return;
+            UpdateTextboxes();
+        }
+
+        private void UpdateTextboxes()
+        {
             /*
             frame.Text = lastFrameNum.ToString();
 
@@ -93,12 +97,14 @@ namespace Lundgren
 
             timer.Text = GameState.timerString;
             */
+            return;
         }
 
-        public String MoveToString(HashSet<ButtonPress> set) 
+
+        public string MoveToString(HashSet<ButtonPress> set) 
         {
             StringBuilder sb = new StringBuilder();
-            foreach (ButtonPress bp in set)
+            foreach (var bp in set)
             {
                 sb.Append(bp.ToString() + " ");
             }
@@ -109,7 +115,7 @@ namespace Lundgren
         {
             if (InvokeRequired)
             {
-                EventHandler<Logging.LogEventArgs> hnd = new EventHandler<Logging.LogEventArgs>(Log);
+                var hnd = new EventHandler<Logging.LogEventArgs>(Log);
                 Invoke(hnd, new object[] { sender, e });
                 return;
             }
@@ -121,16 +127,16 @@ namespace Lundgren
 
         private void beginButton_Click(object sender, EventArgs e)
         {
-            var threadDelegate = new ThreadStart(attemptToPickFox20xx);
-            Thread t = new Thread(threadDelegate);
+            var threadDelegate = new ThreadStart(AttemptToPickFox20XX);
+            var t = new Thread(threadDelegate);
             Log(null, new Logging.LogEventArgs("Attempting to pick fox."));
             t.Start();
         }
 
-        private void attemptToPickFox()
+        private void AttemptToPickFox()
         {
-            int currentFrame = lastFrameNum + 5;
-            for (int i = 0; i < 8; i++)
+            var currentFrame = LastFrameNum + 5;
+            for (var i = 0; i < 8; i++)
             {
                 currentFrame++;
                 queue.AddToFrame(currentFrame, new StickPress(Direction.NE));
@@ -138,7 +144,7 @@ namespace Lundgren
                 queue.AddToFrame(currentFrame, new StickPress(Direction.N));
             }
             queue.AddToFrame(currentFrame + 1, new DigitalPress(DigitalButton.A));
-            for (int i = 0; i < 8; i++)
+            for (var i = 0; i < 8; i++)
             {
                 currentFrame++;
                 queue.AddToFrame(currentFrame, new StickPress(Direction.SE));
@@ -147,65 +153,64 @@ namespace Lundgren
             }
             queue.AddToFrame(currentFrame + 1, new DigitalPress(DigitalButton.A));
             queue.AddToFrame(currentFrame + 15, new DigitalPress(DigitalButton.A));
-            queue.AddToFrame(currentFrame + 30, new DigitalPress(DigitalButton.START));
+            queue.AddToFrame(currentFrame + 30, new DigitalPress(DigitalButton.Start));
         }
 
-        private void attemptToPickAndName20xx()
+        private void AttemptToPickAndName20XX()
         {
-            attemptToPickFox20xx();
-            attemptToName20xx();
+            AttemptToPickFox20XX();
+            AttemptToName20XX();
         }
 
-        private void attemptToName20xx()
+        private void AttemptToName20XX()
         {
-            int currentFrame = lastFrameNum + 1;
-            for (int i = 0; i < 20; i++)
+            var currentFrame = LastFrameNum + 1;
+            for (var i = 0; i < 20; i++)
             {
                 currentFrame++;
                 queue.AddToFrame(currentFrame, new StickPress(Direction.S));
             }
             Thread.Sleep(100);
             queue.Clear();
-            queue.AddToFrame(lastFrameNum + 5, new DigitalPress(DigitalButton.A));
+            queue.AddToFrame(LastFrameNum + 5, new DigitalPress(DigitalButton.A));
 
         }
 
-        private void attemptToPickFox20xx()
+        private void AttemptToPickFox20XX()
         {
-            int currentFrame = lastFrameNum + 5;
-            for (int i = 0; i < 6; i++)
+            var currentFrame = LastFrameNum + 5;
+            for (var i = 0; i < 6; i++)
             {
                 currentFrame++;
                 queue.AddToFrame(currentFrame + i, new StickPress(Direction.N));
             }
             Thread.Sleep(100);
 
-            byte prev = 0;
-            byte p1 = GameState.mem.ReadByte(0x8042208F);
+            var prev = 0;
+            var p1 = GameState.Mem.ReadByte(0x8042208F);
             while (p1 != 2)
             {
                 prev = p1;
-                queue.AddToFrame(lastFrameNum + 1, new DigitalPress(DigitalButton.B));
-                queue.AddToFrame(lastFrameNum + 2, new DigitalPress(DigitalButton.A));
-                Thread.Sleep(50);
-                p1 = GameState.mem.ReadByte(0x8042208F);
-                if (p1 == 2)
-                {
-                    Log(null, new Logging.LogEventArgs("Fox selected!"));
-                    queue.Clear();
-                    return;
-                }
+                queue.AddToFrame(LastFrameNum + 1, new DigitalPress(DigitalButton.B));
+                queue.AddToFrame(LastFrameNum + 2, new DigitalPress(DigitalButton.A));
+                Thread.Sleep(75);
+                p1 = GameState.Mem.ReadByte(0x8042208F);
+                if (p1 != 2) continue;
+                Log(null, new Logging.LogEventArgs("Fox selected!"));
+                queue.Clear();
+                return;
             }
         }
 
 
         private void SleepUntilFrame(int frame)
         {
+            // This doesn't work at all
             int count = 0;
             Debug.WriteLine("Beginning to wait...");
-            while (lastFrameNum != frame)
+            while (LastFrameNum != frame)
             {
-                Debug.WriteLine("wait..." + lastFrameNum + " " + frame);
+                Debug.WriteLine("wait..." + LastFrameNum + " " + frame);
                 count++;
             }
             Debug.WriteLine("Done waiting... waited " + count);
@@ -214,15 +219,15 @@ namespace Lundgren
         private void waveshineBtn_Click(object sender, EventArgs e)
         {
 
-            var threadDelegate = new ThreadStart(moveWaveshine);
-            Thread t = new Thread(threadDelegate);
+            var threadDelegate = new ThreadStart(MoveWaveshine);
+            var t = new Thread(threadDelegate);
             Log(null, new Logging.LogEventArgs("Attempting to waveshine."));
             t.Start();
         }
 
-        private void moveWaveshine()
+        private void MoveWaveshine()
         {
-            int currentFrame = lastFrameNum + 15;
+            int currentFrame = LastFrameNum + 15;
 
             for (int i = 0; i < 10; i++) {
                 queue.AddToFrame(currentFrame + 0, new StickPress(Direction.S));
@@ -248,18 +253,18 @@ namespace Lundgren
 
         private void multishineBtn_Click(object sender, EventArgs e)
         {
-            var threadDelegate = new ThreadStart(moveMultiShine);
-            Thread t = new Thread(threadDelegate);
+            var threadDelegate = new ThreadStart(MoveMultiShine);
+            var t = new Thread(threadDelegate);
             Log(null, new Logging.LogEventArgs("Attempting to multishine."));
             t.Start();
         }
 
 
-        private void moveMultiShine()
+        private void MoveMultiShine()
         {
-            int currentFrame = lastFrameNum + 10;
+            var currentFrame = LastFrameNum + 10;
 
-            for (int i = 0; i < 10; i++)
+            for (var i = 0; i < 10; i++)
             {
                  
                 queue.AddToFrame(currentFrame + 1, new StickPress(Direction.S));
@@ -308,22 +313,22 @@ namespace Lundgren
 
         private void lolBtn_Click(object sender, EventArgs e)
         {
-            var threadDelegate = new ThreadStart(moveLol);
-            Thread t = new Thread(threadDelegate);
+            var threadDelegate = new ThreadStart(MoveLol);
+            var t = new Thread(threadDelegate);
             Log(null, new Logging.LogEventArgs("Attempting to multishine."));
             t.Start();
         }
 
 
-        private void moveLol()
+        private void MoveLol()
         {
-            int currentFrame = lastFrameNum + 15;
+            var currentFrame = LastFrameNum + 15;
 
             var dir1 = Direction.E;
             var dir2 = Direction.W;
             
 
-            for (int i = 0; i < 20; i++)
+            for (var i = 0; i < 20; i++)
             {
                 queue.AddToFrame(currentFrame + 1, new StickPress(dir1));
                 queue.AddToFrame(currentFrame + 0, new StickPress(Direction.S));
@@ -342,7 +347,7 @@ namespace Lundgren
 
 
         }
-        /*private void moveLol()
+        /* private void moveLol()
         {
             int currentFrame = lastFrameNum + 15;
 
@@ -369,53 +374,51 @@ namespace Lundgren
 
         }*/
 
-        private readonly Driver _driver;
-
         private void btnA_Click(object sender, EventArgs e)
         {
-            queue.AddToFrame(lastFrameNum + 15, new DigitalPress(DigitalButton.A));
-            Log(null, new Logging.LogEventArgs("Adding A to frame " + (lastFrameNum + 15)));
+            queue.AddToFrame(LastFrameNum + 15, new DigitalPress(DigitalButton.A));
+            Log(null, new Logging.LogEventArgs("Adding A to frame " + (LastFrameNum + 15)));
         }
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            queue.AddToFrame(lastFrameNum + 15, new DigitalPress(DigitalButton.START));
+            queue.AddToFrame(LastFrameNum + 15, new DigitalPress(DigitalButton.Start));
         }
 
         private void btnB_Click(object sender, EventArgs e)
         {
-            queue.AddToFrame(lastFrameNum + 15, new DigitalPress(DigitalButton.B));
+            queue.AddToFrame(LastFrameNum + 15, new DigitalPress(DigitalButton.B));
         }
 
         private void btnY_Click(object sender, EventArgs e)
         {
-            queue.AddToFrame(lastFrameNum + 150, new DigitalPress(DigitalButton.Y));
-            Log(null, new Logging.LogEventArgs("Adding A to frame " + (lastFrameNum + 150)));
+            queue.AddToFrame(LastFrameNum + 150, new DigitalPress(DigitalButton.Y));
+            Log(null, new Logging.LogEventArgs("Adding A to frame " + (LastFrameNum + 150)));
         }
 
         private void btnX_Click(object sender, EventArgs e)
         {
-            queue.AddToFrame(lastFrameNum + 15, new DigitalPress(DigitalButton.X));
+            queue.AddToFrame(LastFrameNum + 15, new DigitalPress(DigitalButton.X));
         }
 
         private void btnSRight_Click(object sender, EventArgs e)
         {
-            queue.AddToFrame(lastFrameNum + 15, new StickPress(Direction.E));
+            queue.AddToFrame(LastFrameNum + 15, new StickPress(Direction.E));
         }
 
         private void btnSUp_Click(object sender, EventArgs e)
         {
-            queue.AddToFrame(lastFrameNum + 15, new StickPress(Direction.N));
+            queue.AddToFrame(LastFrameNum + 15, new StickPress(Direction.N));
         }
 
         private void btnSDown_Click(object sender, EventArgs e)
         {
-            queue.AddToFrame(lastFrameNum + 15, new StickPress(Direction.S));
+            queue.AddToFrame(LastFrameNum + 15, new StickPress(Direction.S));
         }
 
         private void btnSLeft_Click(object sender, EventArgs e)
         {
-            queue.AddToFrame(lastFrameNum + 15, new StickPress(Direction.W));
+            queue.AddToFrame(LastFrameNum + 15, new StickPress(Direction.W));
         }
 
 
@@ -425,7 +428,7 @@ namespace Lundgren
             {
                 Driver.run = true;
                 var threadDelegate = new ThreadStart(Driver.Start);
-                Thread t = new Thread(threadDelegate);
+                var t = new Thread(threadDelegate);
                 Log(null, new Logging.LogEventArgs("Starting output."));
                 t.Start();
             }

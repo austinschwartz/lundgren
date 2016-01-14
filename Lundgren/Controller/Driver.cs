@@ -33,6 +33,7 @@ namespace Lundgren.Controller
         private vJoy gcn2 = new vJoy();
         private vJoy gcn3 = new vJoy();
         private vJoy gcn4 = new vJoy();
+
         private bool gcn1ok = false;
         private bool gcn2ok = false;
         private bool gcn3ok = false;
@@ -100,7 +101,7 @@ namespace Lundgren.Controller
                 }
                 catch (Exception ex)
                 {
-                    DriverLog(null, new Logging.LogEventArgs("Error: " + ex.ToString()));
+                    DriverLog(null, new Logging.LogEventArgs("Error: " + ex));
                     if (ex.Message.Contains("HRESULT: 0x8007000B"))
                     {
                         DriverLog(null, new Logging.LogEventArgs("Error: vJoy driver mismatch. Did you install the wrong version (x86/x64)?"));
@@ -115,13 +116,13 @@ namespace Lundgren.Controller
                     // PORT 2: bytes 11-17
                     // PORT 3: bytes 20-27
                     // PORT 4: bytes 29-36l
-                    byte[] ReadBuffer = new byte[37]; // 32 (4 players x 8) bytes for input, 5 bytes for formatting
+                    var ReadBuffer = new byte[37]; // 32 (4 players x 8) bytes for input, 5 bytes for formatting
                     DriverLog(null, new Logging.LogEventArgs("Driver successfully started, entering input loop."));
                     run = true;
                     while (run)
                     {
                         var ec = reader.Read(ReadBuffer, 10, out transferLength);
-                        byte[] by = getFastInput1(ref ReadBuffer);
+                        var by = getFastInput1(ref ReadBuffer);
                         var input1 = ControllerState.deserialize(by);
                         InputLog(null, new Logging.LogEventArgs(input1.ToString()));
 

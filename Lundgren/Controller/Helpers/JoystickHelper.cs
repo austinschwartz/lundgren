@@ -16,7 +16,7 @@ namespace Lundgren.Controller
         public static void setJoystick(ref vJoy joystick, ControllerState input, uint joystickID, ControllerDeadZones deadZones)
         {
             bool res;
-            int multiplier = 127;
+            var multiplier = 127;
 
             if (!deadZones.analogStick.inDeadZone(input.StickX, input.StickY))
             {

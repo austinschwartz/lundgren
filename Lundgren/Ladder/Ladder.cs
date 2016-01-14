@@ -8,34 +8,39 @@ using OpenQA.Selenium;
 
 namespace Lundgren.Ladder
 {
-    class Ladder
+    class Ladder : IDisposable
     {
-        IWebDriver driver;
-        String anthersURL = "https://www.smashladder.com/log-in";
-        String username;
-        String password;
+        private readonly IWebDriver driver;
+        private readonly string _anthersUrl = "https://www.smashladder.com/log-in";
+        private string _username;
+        private string _password;
 
         public Ladder()
         {
             driver = new FirefoxDriver();
-            username = System.Environment.GetEnvironmentVariable("ladderUsername", EnvironmentVariableTarget.Machine);
-            password = System.Environment.GetEnvironmentVariable("ladderPassword", EnvironmentVariableTarget.Machine);
-            login();
+            _username = System.Environment.GetEnvironmentVariable("ladderUsername", EnvironmentVariableTarget.Machine);
+            _password = System.Environment.GetEnvironmentVariable("ladderPassword", EnvironmentVariableTarget.Machine);
+            Login();
         }
 
-        public void login()
+        public void Login()
         {
-            driver.Navigate().GoToUrl(anthersURL);
-            IWebElement userElement = driver.FindElement(By.Name("username"));
-            userElement.SendKeys(username);
-            IWebElement passElement = driver.FindElement(By.Name("password"));
-            passElement.SendKeys(password);
+            driver.Navigate().GoToUrl(_anthersUrl);
+            var userElement = driver.FindElement(By.Name("username"));
+            userElement.SendKeys(_username);
+            var passElement = driver.FindElement(By.Name("password"));
+            passElement.SendKeys(_password);
             passElement.SendKeys(Keys.Enter);
         }
 
-        public void quit()
+        public void Quit()
         {
             driver.Quit();
+        }
+
+        public void Dispose()
+        {
+            driver.Dispose();
         }
     }
 }

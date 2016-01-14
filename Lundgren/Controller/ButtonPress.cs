@@ -2,7 +2,7 @@
 
 namespace Lundgren.Controller
 {
-    public enum DigitalButton { A, B, X, Y, L, R, Z, START, D_UP, D_RIGHT, D_DOWN, D_LEFT };
+    public enum DigitalButton { A, B, X, Y, L, R, Z, Start, DUp, DRight, DDown, DLeft };
 
     public class ButtonPress { }
     class AnalogPress : ButtonPress { }

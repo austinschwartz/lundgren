@@ -193,16 +193,16 @@ namespace Lundgren.Controller
                     case DigitalButton.Z:
                         Z = true;
                         break;
-                    case DigitalButton.D_DOWN:
+                    case DigitalButton.DDown:
                         DDown = true;
                         break;
-                    case DigitalButton.D_LEFT:
+                    case DigitalButton.DLeft:
                         DLeft = true;
                         break;
-                    case DigitalButton.D_UP:
+                    case DigitalButton.DUp:
                         DUp = true;
                         break;
-                    case DigitalButton.D_RIGHT:
+                    case DigitalButton.DRight:
                         DRight = true;
                         break;
                     case DigitalButton.R:
@@ -211,7 +211,7 @@ namespace Lundgren.Controller
                     case DigitalButton.L:
                         LDigital = true;
                         break;
-                    case DigitalButton.START:
+                    case DigitalButton.Start:
                         Start = true;
                         break;
                 }

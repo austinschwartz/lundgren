@@ -7,67 +7,67 @@ namespace Lundgren.Game
 {
     public static class GameState
     {
-        public static byte p1CharNum = 0;
-        public static byte p1Percent = 0;
-        public static byte p1Stocks = 0;
+        public static byte P1CharNum = 0;
+        public static byte P1Percent = 0;
+        public static byte P1Stocks = 0;
 
-        public static byte p2CharNum = 0;
-        public static byte p2Percent = 0;
-        public static byte p2Stocks = 0;
+        public static byte P2CharNum = 0;
+        public static byte P2Percent = 0;
+        public static byte P2Stocks = 0;
 
-        public static byte stageNum = 0;
+        public static byte StageNum = 0;
 
-        public static String timerString;
-        public static TimeSpan timer;
+        public static string TimerString;
+        public static TimeSpan Timer;
 
-        public static int lastFrame = 0;
+        public static int LastFrame = 0;
 
-        public static Memory mem = null;
+        public static Memory Mem = null;
 
         public static bool Initialize()
         {
-            mem = new Memory();
-            var success = mem.OpenProcess("Dolphin");
+            Mem = new Memory();
+            var success = Mem.OpenProcess("Dolphin");
             while (success == false)
             {
                 Thread.Sleep(1000);
-                success = mem.OpenProcess("Dolphin");
+                success = Mem.OpenProcess("Dolphin");
             }
             return true;
         }
 
         public static void GetState()
         {
-            if (mem == null)
+            if (Mem == null)
             {
                 Initialize();
             }
 
-            p1CharNum = mem.ReadByte(0x8042208F);
-            p2CharNum = mem.ReadByte(0x80422097);
-            p1Percent = mem.ReadByte(0x804430E1);
-            p2Percent = mem.ReadByte(0x80443F71);
-            p1Stocks  = mem.ReadByte(0x8044310E);
-            p2Stocks  = mem.ReadByte(0x80443F9E);
+            P1CharNum = Mem.ReadByte(0x8042208F);
+            P2CharNum = Mem.ReadByte(0x80422097);
+            P1Percent = Mem.ReadByte(0x804430E1);
+            P2Percent = Mem.ReadByte(0x80443F71);
+            P1Stocks  = Mem.ReadByte(0x8044310E);
+            P2Stocks  = Mem.ReadByte(0x80443F9E);
 
-            stageNum = mem.ReadByte(0x804C6CAE);
+            StageNum = Mem.ReadByte(0x804C6CAE);
 
-            var t = mem.ReadBytes(0x8045B6C6, 2);
-            timer = TimeSpan.FromHours(8).Subtract(TimeSpan.FromSeconds(t));
-            timerString = timer.ToString(@"hh\:mm\:ss");
+            var t = Mem.ReadBytes(0x8045B6C6, 2);
+            Timer = TimeSpan.FromHours(8).Subtract(TimeSpan.FromSeconds(t));
+            TimerString = Timer.ToString(@"hh\:mm\:ss");
 
         }
 
         public static int GetFrame()
         {
-            if (mem == null)
+            if (Mem == null)
             {
                 Initialize();
             }
-            int frame = (int)(mem.ReadBytes(0x80469D5C, 4));
-            if (frame <= lastFrame)
+            var frame = Mem.ReadBytes(0x80469D5C, 4);
+            if (frame <= LastFrame)
                 frame++;
-            lastFrame = frame;
+            LastFrame = frame;
             return frame;
         }
 

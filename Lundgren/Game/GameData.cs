@@ -4,7 +4,7 @@ namespace Lundgren.Game
 {
     public static class GameData
     {
-        public static String[] stages =
+        public static string[] Stages =
         {
             "Princess Peach's Castle",
             "Rainbow Cruise",
@@ -36,7 +36,7 @@ namespace Lundgren.Game
 
         };
 
-        public static String[] chars =
+        public static string[] Chars =
         {
             "Captain Falcon",
             "Donkey Kong",
