@@ -4,40 +4,44 @@ namespace Lundgren.Game
 {
     public static class GameData
     {
-        public static string[] Stages =
+        private static readonly string[] _stageIds =
         {
             "Princess Peach's Castle",
             "Rainbow Cruise",
-            "..",
-            "..",
-            "..",
-            "..",
+            "Kongo Jungle",
+            "Jungle Japes",
+            "Termina Great Bay",
+            "Hyrule Temple",
             "Yoshi's Story",
-            "..",
+            "Yoshi's Island",
             "Fountain of Dreams",
-            "..",
-            "..",
-            "..",
-            "..",
-            "..",
-            "..",
-            "..",
-            "..",
-            "..",
+            "Green Greens",
+            "Corneria",
+            "Venom",
+            "Brinstar",
+            "Brinstar Depths",
+            "Onett",
+            "Fourside",
+            "Mute City",
+            "Big Blue",
             "Pokemon Stadium",
-            "..",
-            "..",
-            "..",
-            "..",
-            "..",
+            "Poke Floats",
+            "Mushroom Kingdom",
+            "Mushroom Kingdom 2",
+            "Icicle Mountain",
+            "Flat Zone",
             "Battlefield",
             "Final Destination",
-            "Dream Land"
+            "Dream Land",
+            "Yoshi's Island - Past",
+            "Kongo Jungle - Past",
+            "Random",
+            "??"
 
         };
 
         // https://code.google.com/p/vgce/wiki/ssbmCharID
-        public static string[] ExternalCharIds =
+        private static readonly string[] _externalCharIds =
         {
             "Captain Falcon",
             "Donkey Kong",
@@ -75,7 +79,7 @@ namespace Lundgren.Game
             "None"
         };
 
-        public static string[] InteralCharIds =
+        private static readonly string[] _interalCharIds =
         {
             "Donkey Kong",
             "Kirby",
@@ -108,5 +112,15 @@ namespace Lundgren.Game
             "Giga Bowser",
             "Sandbag"
         };
+
+        public static string Stage(int stageNum)
+        {
+            return _stageIds[stageNum];
+        }
+
+        public static string ExternalChar(byte charNum)
+        {
+            return _externalCharIds[charNum];
+        }
     }
 }

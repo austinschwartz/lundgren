@@ -15,21 +15,30 @@ namespace Lundgren
 {
     public partial class Lundgren : Form
     {
-        private readonly Timer _timer = new Timer();
+        private System.Timers.Timer        _gameTimer = new System.Timers.Timer();
+        private System.Windows.Forms.Timer _formTimer = new System.Windows.Forms.Timer();
+
         public static Memory Mem = null;
         public static int LastFrameNum = 0;
+
         private MoveQueue queue = new MoveQueue();
         public ControllerState State, Prev;
 
         public Lundgren()
         {
+            // Refactor this later
             queue = new MoveQueue();
             Prev = new ControllerState(-1);
+
             InitializeComponent();
 
-            _timer.Interval = 1;
-            _timer.Elapsed += new ElapsedEventHandler(TimerTick);
-            _timer.Enabled = true;
+            _gameTimer.Elapsed += new ElapsedEventHandler(MoveTimer);
+            _gameTimer.Interval = 1;
+            _gameTimer.Enabled = true;
+
+            _formTimer.Tick += new EventHandler(FormTimer);
+            _formTimer.Interval = 5;
+            _formTimer.Enabled = true;
 
             Driver = new Driver(this);
             Driver.DriverLog += Log;
@@ -38,6 +47,20 @@ namespace Lundgren
         }
         
         public Driver Driver { get; }
+
+        private void LogFrameState(int frameNum, ControllerState controllerState, bool rem)
+        {
+            Log(null,
+                !rem
+                    ? new Logging.LogEventArgs($"Something went wrong on frame {frameNum}")
+                    : new Logging.LogEventArgs($"F: {frameNum} - {controllerState}"));
+        }
+
+        void MoveTimer(Object sender, EventArgs e)
+        {
+            if (ProcessMoves() == false)
+                return;
+        }
 
         private bool ProcessMoves()
         {
@@ -65,38 +88,27 @@ namespace Lundgren
             return true;
         }
 
-        private void LogFrameState(int frameNum, ControllerState controllerState, bool rem)
+
+        private void FormTimer(Object sender, EventArgs e)
         {
-            if (!rem)
-                Log(null, new Logging.LogEventArgs($"Something went wrong on frame { frameNum }"));
-            else
-                Log(null, new Logging.LogEventArgs($"F: { frameNum } - { controllerState }"));
-        }
-        
-        void TimerTick(Object sender, EventArgs e)
-        {
-            // only pass this point if its a new frame
-            if (ProcessMoves() == false)
-                return;
+            GameState.GetState();
             UpdateTextboxes();
         }
 
         private void UpdateTextboxes()
         {
-            /*
-            frame.Text = lastFrameNum.ToString();
+            frame.Text = LastFrameNum.ToString();
 
-            p1percent.Text = $"{GameState.p1Percent.ToString()}%";
-            p2percent.Text = $"{GameState.p2Percent.ToString()}%";
-            p1stocks.Text = GameState.p1Stocks.ToString();
-            p2stocks.Text = GameState.p2Stocks.ToString();
+            p1percent.Text = $"{ GameState.P1Percent }%";
+            p2percent.Text = $"{ GameState.P2Percent }%";
+            p1stocks.Text = GameState.P1Stocks.ToString();
+            p2stocks.Text = GameState.P2Stocks.ToString();
 
-            stage.Text = GameData.stages[GameState.stageNum];
-            p1char.Text = GameData.chars[GameState.p1CharNum];
-            p2char.Text = GameData.chars[GameState.p2CharNum];
+            stage.Text = GameState.Stage;
+            p1char.Text = GameState.P1Char;
+            p2char.Text = GameState.P2Char;
 
-            timer.Text = GameState.timerString;
-            */
+            timer.Text = GameState.TimerString;
             return;
         }
 

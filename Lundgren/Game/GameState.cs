@@ -26,6 +26,10 @@ namespace Lundgren.Game
 
         public static Memory Mem = null;
 
+        public static string P1Char => GameData.ExternalChar(P1CharNum);
+        public static string P2Char => GameData.ExternalChar(P2CharNum);
+        public static string Stage => GameData.Stage(StageNum);
+
         public static bool Initialize()
         {
             Mem = new Memory();
