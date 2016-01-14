@@ -37,10 +37,11 @@ namespace Lundgren
             _gameTimer.Enabled = true;
 
             _formTimer.Tick += new EventHandler(FormTimer);
-            _formTimer.Interval = 5;
+            _formTimer.Interval = 1;
             _formTimer.Enabled = true;
 
             Driver = new Driver(this);
+
             Driver.DriverLog += Log;
             Driver.InputLog += Log;
             JoystickHelper.JoystickLog += Log;
@@ -98,18 +99,18 @@ namespace Lundgren
         private void UpdateTextboxes()
         {
             frame.Text = LastFrameNum.ToString();
+            stage.Text = GameState.Stage;
 
             p1percent.Text = $"{ GameState.P1Percent }%";
             p2percent.Text = $"{ GameState.P2Percent }%";
-            p1stocks.Text = GameState.P1Stocks.ToString();
-            p2stocks.Text = GameState.P2Stocks.ToString();
-
-            stage.Text = GameState.Stage;
+            p1stocks.Text = GameState.P1Stocks;
+            p2stocks.Text = GameState.P2Stocks;
             p1char.Text = GameState.P1Char;
             p2char.Text = GameState.P2Char;
+            p1Animation.Text = GameState.P1Animation;
+            p2Animation.Text = GameState.P2Animation;
 
             timer.Text = GameState.TimerString;
-            return;
         }
 
 
@@ -118,7 +119,7 @@ namespace Lundgren
             StringBuilder sb = new StringBuilder();
             foreach (var bp in set)
             {
-                sb.Append(bp.ToString() + " ");
+                sb.Append(bp.ToString() + Environment.NewLine);
             }
             return sb.ToString();
         }
