@@ -28,23 +28,23 @@ namespace Lundgren.Game.Helpers
         }
         public bool OpenProcess(string sProcessName)
         {
-            Process[] processesByName = Process.GetProcessesByName(sProcessName);
+            var processesByName = Process.GetProcessesByName(sProcessName);
             if (processesByName.Length <= 0)
                 return false;
-            this._mReadProcess = processesByName[0];
-            if (!(this._mReadProcess.Handle != IntPtr.Zero))
+            _mReadProcess = processesByName[0];
+            if (!(_mReadProcess.Handle != IntPtr.Zero))
                 return false;
-            this._hReadProcess = this._mReadProcess.Handle;
+            _hReadProcess = _mReadProcess.Handle;
             return true;
         }
         public int BaseAddress()
         {
-            return this._mReadProcess.MainModule.BaseAddress.ToInt32();
+            return _mReadProcess.MainModule.BaseAddress.ToInt32();
         }
 
         public byte ReadByte(long iMemoryAddress)
         {
-            byte[] bBuffer = new byte[1];
+            var bBuffer = new byte[1];
             IntPtr lpNumberOfBytesRead;
             if (Mapi.ReadProcessMemory(this._hReadProcess, (IntPtr)iMemoryAddress, bBuffer, 1U, out lpNumberOfBytesRead) == 0)
                 return (byte)0;
@@ -53,7 +53,7 @@ namespace Lundgren.Game.Helpers
 
         public int ReadBytes(long iMemoryAddress, uint b, bool bigEndian = true)
         {
-            byte[] bBuffer = new byte[b];
+            var bBuffer = new byte[b];
             IntPtr lpNumberOfBytesRead;
             if (Mapi.ReadProcessMemory(this._hReadProcess, (IntPtr)iMemoryAddress, bBuffer, b, out lpNumberOfBytesRead) == 0)
                 return (int)0;
@@ -61,18 +61,21 @@ namespace Lundgren.Game.Helpers
             {
                 Array.Reverse(bBuffer);
             }
-            if (b == 4)
-                return (int)BitConverter.ToInt32(bBuffer, 0);
-            else if (b == 2)
-                return (int) BitConverter.ToInt16(bBuffer, 0);
-            else
-                return (int) bBuffer[0];
+            switch (b)
+            {
+                case 4:
+                    return (int)BitConverter.ToInt32(bBuffer, 0);
+                case 2:
+                    return (int) BitConverter.ToInt16(bBuffer, 0);
+                default:
+                    return (int) bBuffer[0];
+            }
 
         }
 
         public ushort ReadShort(long iMemoryAddress)
         {
-            byte[] bBuffer = new byte[2];
+            var bBuffer = new byte[2];
             IntPtr lpNumberOfBytesRead;
             if (Mapi.ReadProcessMemory(this._hReadProcess, (IntPtr)iMemoryAddress, bBuffer, 2U, out lpNumberOfBytesRead) == 0)
                 return (ushort)0;
@@ -82,7 +85,7 @@ namespace Lundgren.Game.Helpers
 
         public uint ReadInt(long iMemoryAddress)
         {
-            byte[] bBuffer = new byte[4];
+            var bBuffer = new byte[4];
             IntPtr lpNumberOfBytesRead;
             if (Mapi.ReadProcessMemory(this._hReadProcess, (IntPtr)iMemoryAddress, bBuffer, 4U, out lpNumberOfBytesRead) == 0)
                 return 0U;
@@ -92,7 +95,7 @@ namespace Lundgren.Game.Helpers
 
         public long ReadLong(long iMemoryAddress)
         {
-            byte[] bBuffer = new byte[8];
+            var bBuffer = new byte[8];
             IntPtr lpNumberOfBytesRead;
             if (Mapi.ReadProcessMemory(this._hReadProcess, (IntPtr)iMemoryAddress, bBuffer, 8U, out lpNumberOfBytesRead) == 0)
                 return 0L;
@@ -102,7 +105,7 @@ namespace Lundgren.Game.Helpers
 
         public float ReadFloat(long iMemoryAddress)
         {
-            byte[] bBuffer = new byte[4];
+            var bBuffer = new byte[4];
             IntPtr lpNumberOfBytesRead;
             if (Mapi.ReadProcessMemory(this._hReadProcess, (IntPtr)iMemoryAddress, bBuffer, 4U, out lpNumberOfBytesRead) == 0)
                 return 0.0f;
@@ -112,7 +115,7 @@ namespace Lundgren.Game.Helpers
 
         public double ReadDouble(long iMemoryAddress)
         {
-            byte[] bBuffer = new byte[8];
+            var bBuffer = new byte[8];
             IntPtr lpNumberOfBytesRead;
             if (Mapi.ReadProcessMemory(this._hReadProcess, (IntPtr)iMemoryAddress, bBuffer, 8U, out lpNumberOfBytesRead) == 0)
                 return 0.0;
@@ -122,7 +125,7 @@ namespace Lundgren.Game.Helpers
 
         public bool Write(long iMemoryAddress, byte bByteToWrite)
         {
-            byte[] bBuffer = new byte[1]{bByteToWrite};
+            var bBuffer = new byte[1]{bByteToWrite};
             Array.Reverse(bBuffer);
             IntPtr lpNumberOfBytesWritten;
             Mapi.WriteProcessMemory(this._hReadProcess, (IntPtr)iMemoryAddress, bBuffer, 1U, out lpNumberOfBytesWritten);
@@ -131,7 +134,7 @@ namespace Lundgren.Game.Helpers
 
         public bool Write(long iMemoryAddress, short iShortToWrite)
         {
-            byte[] bBuffer = BitConverter.GetBytes(iShortToWrite);
+            var bBuffer = BitConverter.GetBytes(iShortToWrite);
             Array.Reverse(bBuffer);
             IntPtr lpNumberOfBytesWritten;
             Mapi.WriteProcessMemory(this._hReadProcess, (IntPtr)iMemoryAddress, bBuffer, 2U, out lpNumberOfBytesWritten);
