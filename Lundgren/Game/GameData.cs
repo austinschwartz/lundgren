@@ -36,7 +36,8 @@ namespace Lundgren.Game
 
         };
 
-        public static string[] Chars =
+        // https://code.google.com/p/vgce/wiki/ssbmCharID
+        public static string[] ExternalCharIds =
         {
             "Captain Falcon",
             "Donkey Kong",
@@ -72,6 +73,40 @@ namespace Lundgren.Game
             "Sandbag",
             "Popo",
             "None"
+        };
+
+        public static string[] InteralCharIds =
+        {
+            "Donkey Kong",
+            "Kirby",
+            "Bowser",
+            "Link",
+            "Sheik",
+            "Ness",
+            "Peach",
+            "Popo",
+            "Nana",
+            "Pikachu",
+            "Samus",
+            "Yoshi",
+            "JigglyPuff",
+            "Mewtwo",
+            "Luigi",
+            "Marth",
+            "Zelda",
+            "Young Link",
+            "Dr. Mario",
+            "Falco",
+            "Pichu",
+            "Mr. Game & Watch",
+            "Ganondorf",
+            "Roy",
+            "Master Hand",
+            "Crazy Hand",
+            "Wireframe Male (Boy)",
+            "Wireframe Female (Girl)",
+            "Giga Bowser",
+            "Sandbag"
         };
     }
 }
