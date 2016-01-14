@@ -10,7 +10,7 @@ namespace Lundgren.Controller
 
     class StickPress : AnalogPress
     {
-        private static Tuple<int, int> center = Tuple.Create(128, 120);
+        private static readonly Tuple<int, int> center = Tuple.Create(128, 120);
         public byte x, y;
 
         public static Dictionary<Direction, Tuple<int, int>> stickOffsets = new Dictionary<Direction, Tuple<int, int>>()
@@ -29,15 +29,15 @@ namespace Lundgren.Controller
         public StickPress(Direction dir, int xPercent, int yPercent)
         {
             Tuple<int, int> offsets = stickOffsets[dir];
-            this.x = (byte)(center.Item1 + offsets.Item1 * (.01 * xPercent));
-            this.y = (byte)(center.Item2 + offsets.Item2 * (.01 * yPercent));
+            x = (byte)(center.Item1 + offsets.Item1 * (.01 * xPercent));
+            y = (byte)(center.Item2 + offsets.Item2 * (.01 * yPercent));
         }
 
-        public StickPress(Direction dir) : this(dir, 100, 100)
+        public StickPress(Direction dir)
         {
             Tuple<int, int> offsets = stickOffsets[dir];
-            this.x = (byte)(center.Item1 + offsets.Item1);
-            this.y = (byte)(center.Item2 + offsets.Item2);
+            x = (byte)(center.Item1 + offsets.Item1);
+            y = (byte)(center.Item2 + offsets.Item2);
         }
 
         public override string ToString()
@@ -48,9 +48,9 @@ namespace Lundgren.Controller
 
     class C_StickPress : StickPress
     {
-        private static Tuple<int, int> center = Tuple.Create(120, 127);
+        private static readonly Tuple<int, int> center = Tuple.Create(120, 127);
 
-        new private static Dictionary<Direction, Tuple<int, int>> stickOffsets = new Dictionary<Direction, Tuple<int, int>>()
+        new private static readonly Dictionary<Direction, Tuple<int, int>> stickOffsets = new Dictionary<Direction, Tuple<int, int>>()
         {
             { Direction.N,  Tuple.Create(3,   93)},
             { Direction.NE, Tuple.Create(72,  72)},

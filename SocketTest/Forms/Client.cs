@@ -16,10 +16,10 @@ namespace SocketTest.Forms
 {
     public partial class Client : Form
     {
-        public ControllerState state;
+        public ControllerState State;
         public Client()
         {
-            state = new ControllerState(0);
+            State = new ControllerState(0);
             // fix this later
             SocketClient.ClientLog += Client_Log;
             InitializeComponent();
@@ -29,37 +29,37 @@ namespace SocketTest.Forms
 
         private void updateBoxes()
         {
-            this.cStickX.Text = state.C_x.ToString();
-            this.cStickY.Text = state.C_y.ToString();
-            this.stickX.Text  = state.Stick_x.ToString();
-            this.stickY.Text  = state.Stick_y.ToString();
-            this.lAnalog.Text = state.L_Analog.ToString();
-            this.rAnalog.Text = state.R_Analog.ToString();
+            this.cStickX.Text = State.CX.ToString();
+            this.cStickY.Text = State.CY.ToString();
+            this.stickX.Text  = State.StickX.ToString();
+            this.stickY.Text  = State.StickY.ToString();
+            this.lAnalog.Text = State.LAnalog.ToString();
+            this.rAnalog.Text = State.RAnalog.ToString();
         }
         private void updateStateTextBox()
         {
-            serializedOutput.Text = state.ToString();
+            serializedOutput.Text = State.ToString();
         }
 
         private void bButton_CheckedChanged(object sender, EventArgs e)
         {
-            this.state.B = !this.state.B;
+            this.State.B = !this.State.B;
             updateStateTextBox();
         }
 
         private void AButton_CheckedChanged(object sender, EventArgs e)
         {
-            this.state.A = !this.state.A;
+            this.State.A = !this.State.A;
             updateStateTextBox();
         }
         private void yButton_CheckedChanged(object sender, EventArgs e)
         {
-            this.state.Y = !this.state.Y;
+            this.State.Y = !this.State.Y;
             updateStateTextBox();
         }
         private void xButton_CheckedChanged(object sender, EventArgs e)
         {
-            this.state.X = !this.state.X;
+            this.State.X = !this.State.X;
             updateStateTextBox();
         }
 
@@ -67,12 +67,12 @@ namespace SocketTest.Forms
         {
             try
             {
-                state.C_x = (byte)(Int32.Parse(cStickX.Text) % 256);
+                State.CX = (byte)(Int32.Parse(cStickX.Text) % 256);
             }
             catch (Exception)
             {
                 // ADD LOGS HERE LATER
-                state.C_x = 0;
+                State.CX = 0;
             }
             updateStateTextBox();
         }
@@ -80,11 +80,11 @@ namespace SocketTest.Forms
         {
             try
             {
-                state.C_y = (byte)(Int32.Parse(cStickY.Text) % 256);
+                State.CY = (byte)(Int32.Parse(cStickY.Text) % 256);
             }
             catch (Exception)
             {
-                state.C_y = 0;
+                State.CY = 0;
             }
             updateStateTextBox();
         }
@@ -92,11 +92,11 @@ namespace SocketTest.Forms
         {
             try
             {
-                state.Stick_x = (byte)(Int32.Parse(stickX.Text) % 256);
+                State.StickX = (byte)(Int32.Parse(stickX.Text) % 256);
             }
             catch (Exception)
             {
-                state.Stick_x = 0;
+                State.StickX = 0;
             }
             updateStateTextBox();
         }
@@ -104,60 +104,60 @@ namespace SocketTest.Forms
         {
             try
             {
-                state.Stick_y = (byte)(Int32.Parse(stickY.Text) % 256);
+                State.StickY = (byte)(Int32.Parse(stickY.Text) % 256);
             }
             catch (Exception)
             {
-                state.Stick_y = 0;
+                State.StickY = 0;
             }
             updateStateTextBox();
         }
 
         private void dRight_CheckedChanged(object sender, EventArgs e)
         {
-            state.D_Right = !state.D_Right;
+            State.DRight = !State.DRight;
             updateStateTextBox();
         }
 
         private void dUp_CheckedChanged(object sender, EventArgs e)
         {
-            state.D_Up = !state.D_Up;
+            State.DUp = !State.DUp;
             updateStateTextBox();
         }
 
         private void dDown_CheckedChanged(object sender, EventArgs e)
         {
-            state.D_Down = !state.D_Down;
+            State.DDown = !State.DDown;
             updateStateTextBox();
         }
 
         private void dLeft_CheckedChanged(object sender, EventArgs e)
         {
-            state.D_Left = !state.D_Left;
+            State.DLeft = !State.DLeft;
             updateStateTextBox();
         }
 
         private void startButton_CheckedChanged(object sender, EventArgs e)
         {
-            state.Start = !state.Start;
+            State.Start = !State.Start;
             updateStateTextBox();
         }
 
         private void lButton_CheckedChanged(object sender, EventArgs e)
         {
-            state.L_Digital = !state.L_Digital;
+            State.LDigital = !State.LDigital;
             updateStateTextBox();
         }
 
         private void rButton_CheckedChanged(object sender, EventArgs e)
         {
-            state.R_Digital = !state.R_Digital;
+            State.RDigital = !State.RDigital;
             updateStateTextBox();
         }
 
         private void zButton_CheckedChanged(object sender, EventArgs e)
         {
-            state.Z = !state.Z;
+            State.Z = !State.Z;
             updateStateTextBox();
         }
 
@@ -165,12 +165,12 @@ namespace SocketTest.Forms
         {
             try
             {
-                state.L_Analog = (byte)(Int32.Parse(lAnalog.Text) % 256);
+                State.LAnalog = (byte)(Int32.Parse(lAnalog.Text) % 256);
             }
             catch (Exception)
             {
                 //Add logs
-                state.L_Analog = 0;
+                State.LAnalog = 0;
             }
             updateStateTextBox();
         }
@@ -179,18 +179,18 @@ namespace SocketTest.Forms
         {
             try
             {
-                state.R_Analog = (byte)(Int32.Parse(rAnalog.Text) % 256);
+                State.RAnalog = (byte)(Int32.Parse(rAnalog.Text) % 256);
             }
             catch (Exception)
             {
-                state.R_Analog = 0;
+                State.RAnalog = 0;
             }
             updateStateTextBox();
         }
 
         private void enableButton_CheckedChanged(object sender, EventArgs e)
         {
-            state.Enabled = !state.Enabled;
+            State.Enabled = !State.Enabled;
             updateStateTextBox();
         }
 

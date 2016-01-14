@@ -104,7 +104,7 @@ namespace Lundgren.Controller
                     if (ex.Message.Contains("HRESULT: 0x8007000B"))
                     {
                         DriverLog(null, new Logging.LogEventArgs("Error: vJoy driver mismatch. Did you install the wrong version (x86/x64)?"));
-                        Driver.run = false;
+                        run = false;
                         return;
                     }
                 }
@@ -166,7 +166,7 @@ namespace Lundgren.Controller
             else
             {
                 DriverLog(null, new Logging.LogEventArgs("GCN Adapter not detected."));
-                Driver.run = false;
+                run = false;
             }
         }
 

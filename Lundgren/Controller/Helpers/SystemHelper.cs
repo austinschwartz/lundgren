@@ -95,7 +95,8 @@ namespace Lundgren.Controller
 
         #region External vJoy Functions
         //as of vjoy 2.05, x32 and x64 binaries are separated
-        static string vJoyDirectory = Path.GetPathRoot(System.Environment.SystemDirectory) + @"Program Files\vJoy" + ((IntPtr.Size == 8) ? @"\x64\" : @"\x86\");
+        static readonly string vJoyDirectory = Path.GetPathRoot(System.Environment.SystemDirectory) + 
+            @"Program Files\vJoy" + ((IntPtr.Size == 8) ? @"\x64\" : @"\x86\");
 
         public static void CreateJoystick(uint portNum)
         {
@@ -108,21 +109,20 @@ namespace Lundgren.Controller
                 WindowStyle = ProcessWindowStyle.Hidden,
             };
 
-            var p = new Process();
-            p.StartInfo = psi;
+            var p = new Process {StartInfo = psi};
             try
             {
-                Log(null, new Logging.LogEventArgs("Enabling port " + portNum + "..."));
+                Log(null, new Logging.LogEventArgs("Enabling port { portNum }..."));
                 p.Start();
                 while (!p.HasExited)
                 {
                     Thread.Sleep(500);
                 }
-                Log(null, new Logging.LogEventArgs("Port " + portNum + " is detected (OK)."));
+                Log(null, new Logging.LogEventArgs($"Port { portNum } is detected (OK)."));
             }
             catch
             {
-                Log(null, new Logging.LogEventArgs("Error: Unable to complete configuration for port " + portNum + ". (Check vJoy install?)"));
+                Log(null, new Logging.LogEventArgs($"Error: Unable to complete configuration for port { portNum }. (Check vJoy install?)"));
             }
         }
 
@@ -146,11 +146,11 @@ namespace Lundgren.Controller
                 {
                     Thread.Sleep(500);
                 }
-                Log(null, new Logging.LogEventArgs("Port " + portNum + " disabled."));
+                Log(null, new Logging.LogEventArgs($"Port { portNum } disabled."));
             }
             catch
             {
-                Log(null, new Logging.LogEventArgs("Error: Unable to complete configuration for port " + portNum + ". (Check vJoy install?)"));
+                Log(null, new Logging.LogEventArgs($"Error: Unable to complete configuration for port { portNum }. (Check vJoy install?)"));
             }
         }
 

@@ -12,9 +12,8 @@ namespace Lundgren.Controller
 
         public MoveQueue()
         {
-            this.moveDict = new Dictionary<int, ControllerState>();
+            moveDict = new Dictionary<int, ControllerState>();
         }
-
 
         public bool HasFrame(int frame)
         {
@@ -34,7 +33,7 @@ namespace Lundgren.Controller
         public override string ToString()
         {
             var sb = new StringBuilder();
-            foreach (KeyValuePair<int, ControllerState> keyPair in moveDict)
+            foreach (var keyPair in moveDict)
             {
                 sb.Append($"{keyPair.Key} : {keyPair.Value}\n");
             }
@@ -53,15 +52,7 @@ namespace Lundgren.Controller
 
         public void AddToFrame(int frame, ButtonPress bp)
         {
-            ControllerState currentState;
-            if (HasFrame(frame))
-            {
-                currentState = moveDict[frame];
-            }
-            else
-            {
-                currentState = new ControllerState(frame);
-            }
+            ControllerState currentState = HasFrame(frame) ? moveDict[frame] : new ControllerState(frame);
             currentState.Add(bp);
             moveDict[frame] = currentState;
         }

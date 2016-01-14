@@ -76,7 +76,7 @@ namespace Lundgren
                     run = true;
                     while (run)
                     {
-                        if (gcn1ok && _lundgren.state.frame != _lundgren.prev.frame) { JoystickHelper.setJoystick(ref gcn1, _lundgren.state, 1, gcn1DZ); }
+                        if (gcn1ok && _lundgren.state.Frame != _lundgren.prev.Frame) { JoystickHelper.setJoystick(ref gcn1, _lundgren.state, 1, gcn1DZ); }
                         System.Threading.Thread.Sleep(5);
                     }
 

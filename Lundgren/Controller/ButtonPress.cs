@@ -31,7 +31,7 @@ namespace Lundgren.Controller
         public DigitalButton db;
         public DigitalPress(DigitalButton _db)
         {
-            this.db = _db;
+            db = _db;
         }
 
         public override string ToString()

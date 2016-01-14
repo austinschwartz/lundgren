@@ -18,10 +18,10 @@ namespace Lundgren.Controller
             bool res;
             int multiplier = 127;
 
-            if (!deadZones.analogStick.inDeadZone(input.Stick_x, input.Stick_y))
+            if (!deadZones.analogStick.inDeadZone(input.StickX, input.StickY))
             {
-                res = joystick.SetAxis(multiplier * input.Stick_x, joystickID, HID_USAGES.HID_USAGE_X);
-                res = joystick.SetAxis(multiplier * (255 - input.Stick_y), joystickID, HID_USAGES.HID_USAGE_Y);
+                res = joystick.SetAxis(multiplier * input.StickX, joystickID, HID_USAGES.HID_USAGE_X);
+                res = joystick.SetAxis(multiplier * (255 - input.StickY), joystickID, HID_USAGES.HID_USAGE_Y);
             }
             else
             {
@@ -29,10 +29,10 @@ namespace Lundgren.Controller
                 res = joystick.SetAxis(multiplier * 129, joystickID, HID_USAGES.HID_USAGE_Y);
             }
             
-            if (!deadZones.cStick.inDeadZone(input.C_x, input.C_y))
+            if (!deadZones.cStick.inDeadZone(input.CX, input.CY))
             {
-                res = joystick.SetAxis(multiplier * input.C_x, joystickID, HID_USAGES.HID_USAGE_RX);
-                res = joystick.SetAxis(multiplier * (255 - input.C_y), joystickID, HID_USAGES.HID_USAGE_RY);
+                res = joystick.SetAxis(multiplier * input.CX, joystickID, HID_USAGES.HID_USAGE_RX);
+                res = joystick.SetAxis(multiplier * (255 - input.CY), joystickID, HID_USAGES.HID_USAGE_RY);
             }
             else
             {
@@ -40,17 +40,17 @@ namespace Lundgren.Controller
                 res = joystick.SetAxis(multiplier * 129, joystickID, HID_USAGES.HID_USAGE_RY);
             }
             
-            if (!deadZones.LTrigger.inDeadZone(input.L_Analog))
+            if (!deadZones.LTrigger.inDeadZone(input.LAnalog))
             {
-                res = joystick.SetAxis(multiplier * input.L_Analog, joystickID, HID_USAGES.HID_USAGE_Z);
+                res = joystick.SetAxis(multiplier * input.LAnalog, joystickID, HID_USAGES.HID_USAGE_Z);
             }
             else
             {
                 res = joystick.SetAxis(0, joystickID, HID_USAGES.HID_USAGE_Z);
             }
-            if (!deadZones.RTrigger.inDeadZone(input.R_Analog))
+            if (!deadZones.RTrigger.inDeadZone(input.RAnalog))
             {
-                res = joystick.SetAxis(multiplier * input.R_Analog, joystickID, HID_USAGES.HID_USAGE_RZ);
+                res = joystick.SetAxis(multiplier * input.RAnalog, joystickID, HID_USAGES.HID_USAGE_RZ);
             }
             else
             {
@@ -58,10 +58,10 @@ namespace Lundgren.Controller
             }
 
             //dpad button mode for DDR pad support
-            res = joystick.SetBtn(input.D_Up, joystickID, 9);
-            res = joystick.SetBtn(input.D_Down, joystickID, 10);
-            res = joystick.SetBtn(input.D_Left, joystickID, 11);
-            res = joystick.SetBtn(input.D_Right, joystickID, 12);
+            res = joystick.SetBtn(input.DUp, joystickID, 9);
+            res = joystick.SetBtn(input.DDown, joystickID, 10);
+            res = joystick.SetBtn(input.DLeft, joystickID, 11);
+            res = joystick.SetBtn(input.DRight, joystickID, 12);
 
             //buttons
             res = joystick.SetBtn(input.A, joystickID, 1);
@@ -69,8 +69,8 @@ namespace Lundgren.Controller
             res = joystick.SetBtn(input.X, joystickID, 3);
             res = joystick.SetBtn(input.Y, joystickID, 4);
             res = joystick.SetBtn(input.Z, joystickID, 5);
-            res = joystick.SetBtn(input.R_Digital, joystickID, 6);
-            res = joystick.SetBtn(input.L_Digital, joystickID, 7);
+            res = joystick.SetBtn(input.RDigital, joystickID, 6);
+            res = joystick.SetBtn(input.LDigital, joystickID, 7);
             res = joystick.SetBtn(input.Start, joystickID, 8);
         }
 
@@ -84,23 +84,24 @@ namespace Lundgren.Controller
                 switch (status)
                 {
                     case VjdStat.VJD_STAT_OWN:
-                        JoystickLog(null, new Logging.LogEventArgs(string.Format("Port {0} is already owned by this feeder (OK).", id)));
+                        JoystickLog(null, new Logging.LogEventArgs($"Port {id} is already owned by this feeder (OK)."));
                         checker = true;
                         break;
                     case VjdStat.VJD_STAT_FREE:
-                        JoystickLog(null, new Logging.LogEventArgs(string.Format("Port {0} is detected (OK).", id)));
+                        JoystickLog(null, new Logging.LogEventArgs($"Port {id} is detected (OK)."));
                         checker = true;
                         break;
                     case VjdStat.VJD_STAT_BUSY:
-                        JoystickLog(null, new Logging.LogEventArgs(string.Format("Port {0} is already owned by another feeder, cannot continue.", id)));
+                        JoystickLog(null, new Logging.LogEventArgs(
+                            $"Port {id} is already owned by another feeder, cannot continue."));
                         checker = false;
                         return checker;
                     case VjdStat.VJD_STAT_MISS:
-                        JoystickLog(null, new Logging.LogEventArgs(string.Format("Port {0} is not detected.", id)));
+                        JoystickLog(null, new Logging.LogEventArgs($"Port {id} is not detected."));
                         checker = false;
                         return checker;
                     default:
-                        JoystickLog(null, new Logging.LogEventArgs(string.Format("Port {0} general error, cannot continue.", id)));
+                        JoystickLog(null, new Logging.LogEventArgs($"Port {id} general error, cannot continue."));
                         checker = false;
                         return checker;
                 }

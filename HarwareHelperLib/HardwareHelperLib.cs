@@ -151,8 +151,7 @@ namespace HardwareHelperLib
                 {
                     throw new Exception("Invalid Handle");
                 }
-                Native.SP_DEVINFO_DATA DeviceInfoData;
-                DeviceInfoData = new Native.SP_DEVINFO_DATA();
+                Native.SP_DEVINFO_DATA DeviceInfoData = new Native.SP_DEVINFO_DATA();
                 //for 32-bit, IntPtr.Size = 4
                 //for 64-bit, IntPtr.Size = 8
                 
