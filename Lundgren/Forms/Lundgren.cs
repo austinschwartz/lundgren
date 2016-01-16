@@ -109,6 +109,16 @@ namespace Lundgren
             p2char.Text = GameState.P2Char;
             p1Animation.Text = GameState.P1Animation;
             p2Animation.Text = GameState.P2Animation;
+            if (GameState.p1 != null)
+            {
+                p1X.Text = GameState.P1X;
+                p1Y.Text = GameState.P1Y;
+            }
+            if (GameState.p2 != null)
+            {
+                p2X.Text = GameState.P2X;
+                p2Y.Text = GameState.P2Y;
+            }
 
             timer.Text = GameState.TimerString;
         }
@@ -200,14 +210,14 @@ namespace Lundgren
             Thread.Sleep(100);
 
             var prev = 0;
-            var p1 = GameState.Mem.ReadByte(0x8042208F);
+            var p1 = Memory.ReadByte(0x8042208F);
             while (p1 != 2)
             {
                 prev = p1;
                 queue.AddToFrame(LastFrameNum + 1, new DigitalPress(DigitalButton.B));
                 queue.AddToFrame(LastFrameNum + 2, new DigitalPress(DigitalButton.A));
                 Thread.Sleep(75);
-                p1 = GameState.Mem.ReadByte(0x8042208F);
+                p1 = Memory.ReadByte(0x8042208F);
                 if (p1 != 2) continue;
                 Log(null, new Logging.LogEventArgs("Fox selected!"));
                 queue.Clear();
@@ -434,6 +444,10 @@ namespace Lundgren
             queue.AddToFrame(LastFrameNum + 15, new StickPress(Direction.W));
         }
 
+        private void btnThing_Click(object sender, EventArgs e)
+        {
+            GameState.P1Data();
+        }
 
         private void startButton_Click(object sender, EventArgs e)
         {
