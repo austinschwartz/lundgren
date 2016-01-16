@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
+using System.IO;
 using System.Text;
 using System.Threading;
 using System.Timers;
@@ -15,10 +17,12 @@ namespace Lundgren
 {
     public partial class Lundgren : Form
     {
+        private System.Reflection.Assembly assembly
+            = System.Reflection.Assembly.GetExecutingAssembly();
+
         private System.Timers.Timer        _gameTimer = new System.Timers.Timer();
         private System.Windows.Forms.Timer _formTimer = new System.Windows.Forms.Timer();
 
-        public static Memory Mem = null;
         public static int LastFrameNum = 0;
 
         private MoveQueue queue = new MoveQueue();
@@ -69,8 +73,8 @@ namespace Lundgren
             if (thisFrameNum == LastFrameNum)
                 return false;
 
-            //Debug.WriteLine("ON FRAME " + thisFrameNum);
-            if (thisFrameNum != LastFrameNum + 1)
+            //Debug.WriteLine("On frame " + thisFrameNum);
+            if (thisFrameNum != LastFrameNum + 1 && thisFrameNum > LastFrameNum)
                 Debug.WriteLine($"Lost frames between { LastFrameNum } and { thisFrameNum }");
 
             LastFrameNum = thisFrameNum;
@@ -101,23 +105,33 @@ namespace Lundgren
             frame.Text = LastFrameNum.ToString();
             stage.Text = GameState.Stage;
 
-            p1percent.Text = $"{ GameState.P1Percent }%";
-            p2percent.Text = $"{ GameState.P2Percent }%";
-            p1stocks.Text = GameState.P1Stocks;
-            p2stocks.Text = GameState.P2Stocks;
-            p1char.Text = GameState.P1Char;
-            p2char.Text = GameState.P2Char;
-            p1Animation.Text = GameState.P1Animation;
-            p2Animation.Text = GameState.P2Animation;
             if (GameState.p1 != null)
             {
+                p1percent.Text = GameState.P1Percent;
+                p1Animation.Text = GameState.P1Animation;
+                p1char.Text = GameState.P1Char;
+                p1stocks.Text = GameState.P1Stocks;
                 p1X.Text = GameState.P1X;
                 p1Y.Text = GameState.P1Y;
+                if (GameState.p1.HasCharacterSelected)
+                {
+                    Stream myStream = assembly.GetManifestResourceStream(GameState.p1.CharacterImage);
+                    if (myStream != null) p1PictureBox.Image = new Bitmap(myStream);
+                }
             }
             if (GameState.p2 != null)
             {
+                p2percent.Text = GameState.P2Percent;
+                p2Animation.Text = GameState.P2Animation;
+                p2char.Text = GameState.P2Char;
+                p2stocks.Text = GameState.P2Stocks;
                 p2X.Text = GameState.P2X;
                 p2Y.Text = GameState.P2Y;
+                if (GameState.p2.HasCharacterSelected)
+                {
+                    Stream myStream = assembly.GetManifestResourceStream(GameState.p2.CharacterImage);
+                    if (myStream != null) p2PictureBox.Image = new Bitmap(myStream);
+                }
             }
 
             timer.Text = GameState.TimerString;
@@ -370,32 +384,9 @@ namespace Lundgren
 
 
         }
-        /* private void moveLol()
-        {
-            int currentFrame = lastFrameNum + 15;
-
-            for (int i = 0; i < 10; i++)
-            {
-                queue.AddToFrame(currentFrame + 0, new StickPress(Direction.S));
-                queue.AddToFrame(currentFrame + 0, new DigitalPress(DigitalButton.B));
-
-                queue.AddToFrame(currentFrame + 4, new DigitalPress(DigitalButton.Y));
-
-                queue.AddToFrame(currentFrame + 6, new DigitalPress(DigitalButton.B));
-                queue.AddToFrame(currentFrame + 7, new DigitalPress(DigitalButton.B));
-                queue.AddToFrame(currentFrame + 8, new DigitalPress(DigitalButton.B));
-                queue.AddToFrame(currentFrame + 9, new DigitalPress(DigitalButton.B));
-                queue.AddToFrame(currentFrame + 10, new DigitalPress(DigitalButton.B));
-                queue.AddToFrame(currentFrame + 11, new DigitalPress(DigitalButton.B));
-                queue.AddToFrame(currentFrame + 12, new DigitalPress(DigitalButton.B));
-                queue.AddToFrame(currentFrame + 13, new DigitalPress(DigitalButton.B));
 
 
-                currentFrame += 35;
-            }
-
-
-        }*/
+        /* Side buttons */
 
         private void btnA_Click(object sender, EventArgs e)
         {
@@ -456,12 +447,12 @@ namespace Lundgren
                 Driver.run = true;
                 var threadDelegate = new ThreadStart(Driver.Start);
                 var t = new Thread(threadDelegate);
-                Log(null, new Logging.LogEventArgs("Starting output."));
+                Log(null, new Logging.LogEventArgs("Starting driver."));
                 t.Start();
             }
             else
             {
-                Log(null, new Logging.LogEventArgs("Output is already started."));
+                Log(null, new Logging.LogEventArgs("Driver is already started."));
             }
         }
 

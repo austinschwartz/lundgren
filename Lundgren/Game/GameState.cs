@@ -7,18 +7,6 @@ namespace Lundgren.Game
 {
     public static class GameState
     {
-        public static byte P1CharNum = 0;
-        public static byte P2CharNum = 0;
-        public static byte P1Percent = 0;
-        public static byte P2Percent = 0;
-        public static byte P1StockNum = 0;
-        public static byte P2StockNum = 0;
-        public static int P1AnimationNum = 0;
-        public static int P2AnimationNum = 0;
-        public static float P1XValue = 0;
-        public static float P2XValue = 0;
-        public static float P1YValue = 0;
-        public static float P2YValue = 0;
 
         public static PlayerData p1;
         public static PlayerData p2;
@@ -28,8 +16,6 @@ namespace Lundgren.Game
         public static string TimerString;
         public static TimeSpan Timer;
 
-        private static uint _p1StaticAddress = 0x80443080;
-        private static uint _p2StaticAddress = 0x80443f10;
 
 
         public static void P1Data()
@@ -38,7 +24,6 @@ namespace Lundgren.Game
             Debug.WriteLine(String.Format("{0:X}", x));
             Debug.WriteLine(BitConverter.ToString(x));
 
-
         }
 
         public static int LastFrame = 0;
@@ -46,12 +31,14 @@ namespace Lundgren.Game
         public static Memory Mem = null;
 
         /* Strings */
-        public static string P1Char => GameData.ExternalChar(P1CharNum);
-        public static string P2Char => GameData.ExternalChar(P2CharNum);
-        public static string P1Stocks => P1StockNum.ToString();
-        public static string P2Stocks => P2StockNum.ToString();
-        public static string P1Animation => GameData.Animation(P1AnimationNum);
-        public static string P2Animation => GameData.Animation(P2AnimationNum);
+        public static string P1Char => p1.Character;
+        public static string P2Char => p2.Character;
+        public static string P1Stocks => p1.StockNum.ToString();
+        public static string P2Stocks => p2.StockNum.ToString();
+        public static string P1Percent => p1.Percent.ToString();
+        public static string P2Percent => p2.Percent.ToString();
+        public static string P1Animation => "??";
+        public static string P2Animation => "??";
         public static string Stage => GameData.Stage(StageNum);
         public static string P1X => p1.x.ToString();
         public static string P2X => p2.x.ToString();
@@ -64,35 +51,18 @@ namespace Lundgren.Game
             if (!Memory.Initialized)
                 Memory.Initialize();
 
-            P1CharNum = Memory.ReadByte(0x8042208F);
-            P2CharNum = Memory.ReadByte(0x80422097);
-            //P1StockNum = Memory.ReadByte(0x8044310E); //8045310C
-            /*
-            var x = Memory.ReadBytesAsBytes(0x8044310C, 4, false);
-
-            if (x != null)
-            {
-                P1StockNum = x[2];
-                // P1Suicides = probably x[1] or x[0]
-            }
-            
-            P2StockNum = Memory.ReadByte(0x80443F9E);
-            P1Percent = Memory.ReadByte(0x804430E1);
-            P2Percent = Memory.ReadByte(0x80443F71);
-            */
-            P1AnimationNum = Memory.ReadBytes(_p1StaticAddress, 2, true);
-            P2AnimationNum = Memory.ReadBytes(_p2StaticAddress, 2, true);
-
-
-            p1 = new PlayerData(0x80443080);
-            p2 = new PlayerData(0x80443f10);
+            p1 = new PlayerData(PlayerData.Player.One);
+            p2 = new PlayerData(PlayerData.Player.Two);
 
             StageNum = Memory.ReadByte(0x804C6CAE);
+            TimerString = GetTime().ToString(@"hh\:mm\:ss");
 
-            var t = Memory.ReadBytes(0x8045B6C6, 2);
-            Timer = TimeSpan.FromHours(8).Subtract(TimeSpan.FromSeconds(t));
-            TimerString = Timer.ToString(@"hh\:mm\:ss");
+        }
 
+        public static TimeSpan GetTime()
+        {
+            var timerBytes = Memory.ReadBytes(0x8045B6C6, 2);
+            return TimeSpan.FromHours(8).Subtract(TimeSpan.FromSeconds(timerBytes));
         }
 
         public static int GetFrame()

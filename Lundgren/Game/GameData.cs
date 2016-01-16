@@ -46,7 +46,7 @@ namespace Lundgren.Game
             "Captain Falcon",
             "Donkey Kong",
             "Fox",
-            "Mr. GameData & Watch",
+            "Mr. Game & Watch",
             "Kirby",
             "Bowser",
             "Link",
@@ -507,6 +507,8 @@ namespace Lundgren.Game
 
         public static string ExternalChar(byte charNum)
         {
+            if (charNum == 99)
+                return "None";
             return _externalCharIds[charNum];
         }
 
