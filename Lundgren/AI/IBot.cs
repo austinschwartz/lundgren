@@ -10,7 +10,8 @@ namespace Lundgren.AI
     public abstract class IBot
     {
         public abstract bool ProcessMoves();
-        public MoveQueue _queue;
-        public ControllerState State, Prev;
+        public abstract MoveQueue Queue { get; set; }
+        public abstract ControllerState State { get; set; }
+        public abstract ControllerState Prev { get; set; }
     }
 }

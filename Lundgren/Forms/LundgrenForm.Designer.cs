@@ -256,7 +256,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(38, 13);
             this.label4.TabIndex = 39;
-            this.label4.Text = "StageString:";
+            this.label4.Text = "Stage:";
             // 
             // p1stocks
             // 
@@ -461,7 +461,7 @@
             this.Controls.Add(this.multishineBtn);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Name = "Lundgren";
+            this.Name = "LundgrenForm";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.p1PictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.p2PictureBox)).EndInit();

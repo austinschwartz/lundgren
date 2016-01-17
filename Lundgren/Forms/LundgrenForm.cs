@@ -22,6 +22,7 @@ namespace Lundgren.Forms
         private readonly System.Windows.Forms.Timer _formTimer = new System.Windows.Forms.Timer();
 
         public IBot CurrentAI;
+        private readonly Moves _moves;
 
         public LundgrenForm()
         {
@@ -44,9 +45,15 @@ namespace Lundgren.Forms
             JoystickHelper.JoystickLog += Log;
 
             CurrentAI = new AI.Lundgren();
+            _moves = new Moves(this);
         }
         
         public Driver Driver { get; }
+
+        public Moves Moves
+        {
+            get { return _moves; }
+        }
 
         private void LogFrameState(int frameNum, ControllerState controllerState, bool rem)
         {
@@ -58,9 +65,7 @@ namespace Lundgren.Forms
 
         void MoveTimer(Object sender, EventArgs e)
         {
-            if (CurrentAI == null)
-                return;
-            if (CurrentAI.ProcessMoves() == false)
+            if (CurrentAI?.ProcessMoves() == false)
                 return;
         }
 
@@ -108,7 +113,7 @@ namespace Lundgren.Forms
         }
 
 
-        private void Log(object sender, Logging.LogEventArgs e)
+        public void Log(object sender, Logging.LogEventArgs e)
         {
             if (InvokeRequired)
             {
@@ -124,224 +129,36 @@ namespace Lundgren.Forms
 
         private void beginButton_Click(object sender, EventArgs e)
         {
-            var threadDelegate = new ThreadStart(AttemptToPickFox20XX);
+            var threadDelegate = new ThreadStart(Moves.AttemptToPickFox20XX);
             var t = new Thread(threadDelegate);
             Log(null, new Logging.LogEventArgs("Attempting to pick fox."));
             t.Start();
         }
 
-        private void AttemptToPickFox()
-        {
-            var currentFrame = GameState.LastFrame + 5;
-            for (var i = 0; i < 8; i++)
-            {
-                currentFrame++;
-                CurrentAI._queue.AddToFrame(currentFrame, new StickPress(Direction.NE));
-                currentFrame++;
-                CurrentAI._queue.AddToFrame(currentFrame, new StickPress(Direction.N));
-            }
-            CurrentAI._queue.AddToFrame(currentFrame + 1, new DigitalPress(DigitalButton.A));
-            for (var i = 0; i < 8; i++)
-            {
-                currentFrame++;
-                CurrentAI._queue.AddToFrame(currentFrame, new StickPress(Direction.SE));
-                currentFrame++;
-                CurrentAI._queue.AddToFrame(currentFrame, new StickPress(Direction.S));
-            }
-            CurrentAI._queue.AddToFrame(currentFrame + 1, new DigitalPress(DigitalButton.A));
-            CurrentAI._queue.AddToFrame(currentFrame + 15, new DigitalPress(DigitalButton.A));
-            CurrentAI._queue.AddToFrame(currentFrame + 30, new DigitalPress(DigitalButton.Start));
-        }
-
-        private void AttemptToPickAndName20XX()
-        {
-            AttemptToPickFox20XX();
-            AttemptToName20XX();
-        }
-
-        private void AttemptToName20XX()
-        {
-            var currentFrame = GameState.LastFrame + 1;
-            for (var i = 0; i < 20; i++)
-            {
-                currentFrame++;
-                CurrentAI._queue.AddToFrame(currentFrame, new StickPress(Direction.S));
-            }
-            Thread.Sleep(100);
-            CurrentAI._queue.Clear();
-            CurrentAI._queue.AddToFrame(GameState.LastFrame + 5, new DigitalPress(DigitalButton.A));
-
-        }
-
-        private void AttemptToPickFox20XX()
-        {
-            var currentFrame = GameState.LastFrame + 5;
-            for (var i = 0; i < 6; i++)
-            {
-                currentFrame++;
-                CurrentAI._queue.AddToFrame(currentFrame + i, new StickPress(Direction.N));
-            }
-            Thread.Sleep(100);
-
-            var prev = 0;
-            var p1 = Memory.ReadByte(0x8042208F);
-            while (p1 != 2)
-            {
-                prev = p1;
-                CurrentAI._queue.AddToFrame(GameState.LastFrame + 1, new DigitalPress(DigitalButton.B));
-                CurrentAI._queue.AddToFrame(GameState.LastFrame + 2, new DigitalPress(DigitalButton.A));
-                Thread.Sleep(75);
-                p1 = Memory.ReadByte(0x8042208F);
-                if (p1 != 2) continue;
-                Log(null, new Logging.LogEventArgs("Fox selected!"));
-                CurrentAI._queue.Clear();
-                return;
-            }
-        }
-
-
-        private void SleepUntilFrame(int frame)
-        {
-            // This doesn't work at all
-            int count = 0;
-            Debug.WriteLine("Beginning to wait...");
-            while (GameState.LastFrame != frame)
-            {
-                Debug.WriteLine("wait..." + GameState.LastFrame + " " + frame);
-                count++;
-            }
-            Debug.WriteLine("Done waiting... waited " + count);
-        }
-
         private void waveshineBtn_Click(object sender, EventArgs e)
         {
-            var threadDelegate = new ThreadStart(MoveWaveshine);
+            var threadDelegate = new ThreadStart(Moves.MoveWaveshine);
             var t = new Thread(threadDelegate);
             Log(null, new Logging.LogEventArgs("Attempting to waveshine."));
             t.Start();
         }
 
-        private void MoveWaveshine()
-        {
-            int currentFrame = GameState.LastFrame + 15;
-
-            for (int i = 0; i < 10; i++) {
-                CurrentAI._queue.AddToFrame(currentFrame + 0, new StickPress(Direction.S));
-                CurrentAI._queue.AddToFrame(currentFrame + 0, new DigitalPress(DigitalButton.B));
-
-                CurrentAI._queue.AddToFrame(currentFrame + 6, new DigitalPress(DigitalButton.Y));
-
-                CurrentAI._queue.AddToFrame(currentFrame + 10, new StickPress(Direction.SE));
-                CurrentAI._queue.AddToFrame(currentFrame + 10, new ShoulderPress(150));
-                currentFrame += 15;
-
-                CurrentAI._queue.AddToFrame(currentFrame + 0, new StickPress(Direction.S));
-                CurrentAI._queue.AddToFrame(currentFrame + 0, new DigitalPress(DigitalButton.B));
-
-                CurrentAI._queue.AddToFrame(currentFrame + 6, new DigitalPress(DigitalButton.Y));
-
-                CurrentAI._queue.AddToFrame(currentFrame + 10, new StickPress(Direction.SW));
-                CurrentAI._queue.AddToFrame(currentFrame + 10, new ShoulderPress(150));
-                currentFrame += 15;
-            }
-        }
-
 
         private void multishineBtn_Click(object sender, EventArgs e)
         {
-            var threadDelegate = new ThreadStart(MoveMultiShine);
+            var threadDelegate = new ThreadStart(Moves.MoveMultiShine);
             var t = new Thread(threadDelegate);
             Log(null, new Logging.LogEventArgs("Attempting to multishine."));
             t.Start();
         }
 
-
-        private void MoveMultiShine()
-        {
-            var currentFrame = GameState.LastFrame + 10;
-
-            for (var i = 0; i < 10; i++)
-            {
-                 
-                CurrentAI._queue.AddToFrame(currentFrame + 1, new StickPress(Direction.S));
-                CurrentAI._queue.AddToFrame(currentFrame + 1, new DigitalPress(DigitalButton.B));
-
-                CurrentAI._queue.AddToFrame(currentFrame + 4, new DigitalPress(DigitalButton.Y));
-
-                CurrentAI._queue.AddToFrame(currentFrame + 7, new StickPress(Direction.S));
-                CurrentAI._queue.AddToFrame(currentFrame + 7, new DigitalPress(DigitalButton.B));
-
-                CurrentAI._queue.AddToFrame(currentFrame + 12, new DigitalPress(DigitalButton.Y));
-
-                CurrentAI._queue.AddToFrame(currentFrame + 15, new StickPress(Direction.S));
-                CurrentAI._queue.AddToFrame(currentFrame + 15, new DigitalPress(DigitalButton.B));
-                CurrentAI._queue.AddToFrame(currentFrame + 20, new DigitalPress(DigitalButton.Y));
-            
-                CurrentAI._queue.AddToFrame(currentFrame + 23, new DigitalPress(DigitalButton.B));
-
-                CurrentAI._queue.AddToFrame(currentFrame + 28, new DigitalPress(DigitalButton.Y));
-            
-                CurrentAI._queue.AddToFrame(currentFrame + 31, new DigitalPress(DigitalButton.B));
-
-                CurrentAI._queue.AddToFrame(currentFrame + 36, new DigitalPress(DigitalButton.Y));
-
-                currentFrame += 40;
-            }
-
-            Debug.WriteLine(CurrentAI._queue.ToString());
-            /*
-            queue.AddToFrame(((currentFrame + 39) % 60), new StickPress(Direction.S));
-            queue.AddToFrame(((currentFrame + 39) % 60), new DigitalPress(DigitalButton.B));
-
-            queue.AddToFrame(((currentFrame + 44) % 60), new DigitalPress(DigitalButton.Y));
-
-            queue.AddToFrame(((currentFrame + 47) % 60), new StickPress(Direction.S));
-            queue.AddToFrame(((currentFrame + 47) % 60), new DigitalPress(DigitalButton.B));
-
-            queue.AddToFrame(((currentFrame + 52) % 60), new DigitalPress(DigitalButton.Y));
-
-            queue.AddToFrame(((currentFrame + 55) % 60), new StickPress(Direction.S));
-            queue.AddToFrame(((currentFrame + 55) % 60), new DigitalPress(DigitalButton.B));
-            */
-
-
-        }
 
         private void lolBtn_Click(object sender, EventArgs e)
         {
-            var threadDelegate = new ThreadStart(MoveLol);
+            var threadDelegate = new ThreadStart(Moves.MoveLol);
             var t = new Thread(threadDelegate);
             Log(null, new Logging.LogEventArgs("Attempting to multishine."));
             t.Start();
-        }
-
-
-        private void MoveLol()
-        {
-            var currentFrame = GameState.LastFrame + 15;
-
-            var dir1 = Direction.E;
-            var dir2 = Direction.W;
-            
-
-            for (var i = 0; i < 20; i++)
-            {
-                CurrentAI._queue.AddToFrame(currentFrame + 1, new StickPress(dir1));
-                CurrentAI._queue.AddToFrame(currentFrame + 0, new StickPress(Direction.S));
-                CurrentAI._queue.AddToFrame(currentFrame + 0, new DigitalPress(DigitalButton.B));
-
-                CurrentAI._queue.AddToFrame(currentFrame + 4, new DigitalPress(DigitalButton.Y));
-
-                CurrentAI._queue.AddToFrame(currentFrame + 7, new DigitalPress(DigitalButton.B));
-                CurrentAI._queue.AddToFrame(currentFrame + 13, new DigitalPress(DigitalButton.B));
-                CurrentAI._queue.AddToFrame(currentFrame + 14, new DigitalPress(DigitalButton.B));
-                currentFrame += 35;
-                var temp = dir1;
-                dir1 = dir2;
-                dir2 = temp;
-            }
-
-
         }
 
 
@@ -349,49 +166,49 @@ namespace Lundgren.Forms
 
         private void btnA_Click(object sender, EventArgs e)
         {
-            CurrentAI._queue.AddToFrame(GameState.LastFrame + 15, new DigitalPress(DigitalButton.A));
+            CurrentAI.Queue.AddToFrame(GameState.LastFrame + 15, new DigitalPress(DigitalButton.A));
             Log(null, new Logging.LogEventArgs("Adding A to frame " + (GameState.LastFrame + 15)));
         }
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            CurrentAI._queue.AddToFrame(GameState.LastFrame + 15, new DigitalPress(DigitalButton.Start));
+            CurrentAI.Queue.AddToFrame(GameState.LastFrame + 15, new DigitalPress(DigitalButton.Start));
         }
 
         private void btnB_Click(object sender, EventArgs e)
         {
-            CurrentAI._queue.AddToFrame(GameState.LastFrame + 15, new DigitalPress(DigitalButton.B));
+            CurrentAI.Queue.AddToFrame(GameState.LastFrame + 15, new DigitalPress(DigitalButton.B));
         }
 
         private void btnY_Click(object sender, EventArgs e)
         {
-            CurrentAI._queue.AddToFrame(GameState.LastFrame + 150, new DigitalPress(DigitalButton.Y));
+            CurrentAI.Queue.AddToFrame(GameState.LastFrame + 150, new DigitalPress(DigitalButton.Y));
             Log(null, new Logging.LogEventArgs("Adding A to frame " + (GameState.LastFrame + 150)));
         }
 
         private void btnX_Click(object sender, EventArgs e)
         {
-            CurrentAI._queue.AddToFrame(GameState.LastFrame + 15, new DigitalPress(DigitalButton.X));
+            CurrentAI.Queue.AddToFrame(GameState.LastFrame + 15, new DigitalPress(DigitalButton.X));
         }
 
         private void btnSRight_Click(object sender, EventArgs e)
         {
-            CurrentAI._queue.AddToFrame(GameState.LastFrame + 15, new StickPress(Direction.E));
+            CurrentAI.Queue.AddToFrame(GameState.LastFrame + 15, new StickPress(Direction.E));
         }
 
         private void btnSUp_Click(object sender, EventArgs e)
         {
-            CurrentAI._queue.AddToFrame(GameState.LastFrame + 15, new StickPress(Direction.N));
+            CurrentAI.Queue.AddToFrame(GameState.LastFrame + 15, new StickPress(Direction.N));
         }
 
         private void btnSDown_Click(object sender, EventArgs e)
         {
-            CurrentAI._queue.AddToFrame(GameState.LastFrame + 15, new StickPress(Direction.S));
+            CurrentAI.Queue.AddToFrame(GameState.LastFrame + 15, new StickPress(Direction.S));
         }
 
         private void btnSLeft_Click(object sender, EventArgs e)
         {
-            CurrentAI._queue.AddToFrame(GameState.LastFrame + 15, new StickPress(Direction.W));
+            CurrentAI.Queue.AddToFrame(GameState.LastFrame + 15, new StickPress(Direction.W));
         }
 
         private void btnThing_Click(object sender, EventArgs e)

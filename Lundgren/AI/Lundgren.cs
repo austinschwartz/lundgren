@@ -11,21 +11,22 @@ namespace Lundgren.AI
 {
     public class Lundgren : IBot
     {
+        public override MoveQueue Queue { get; set; }
 
-        public readonly MoveQueue _queue;
-
-        public ControllerState State, Prev;
+        public override ControllerState State { get; set; }
+        public override ControllerState Prev { get; set; }
 
         public Lundgren()
         {
-            _queue = new MoveQueue();
+            Queue = new MoveQueue();
             Prev = new ControllerState(-1);
         }
 
         public override bool ProcessMoves()
         {
-            var thisFrameNum = GameState.Frame;
             var lastFrameNum = GameState.LastFrame;
+            var thisFrameNum = GameState.Frame;
+            //Debug.WriteLine(thisFrameNum + " " + lastFrameNum);
 
             if (thisFrameNum == lastFrameNum)
                 return false;
@@ -44,11 +45,11 @@ namespace Lundgren.AI
 
             lastFrameNum = thisFrameNum;
             Prev = State;
-            if (_queue.HasFrame(thisFrameNum))
+            if (Queue.HasFrame(thisFrameNum))
             {
                 Debug.WriteLine($"Performing move on frame { thisFrameNum }");
-                State = _queue.Get(thisFrameNum);
-                var rem = _queue.Remove(thisFrameNum);
+                State = Queue.Get(thisFrameNum);
+                var rem = Queue.Remove(thisFrameNum);
                 //LogFrameState(thisFrameNum, State, rem);
             }
             else
@@ -57,5 +58,6 @@ namespace Lundgren.AI
             }
             return true;
         }
+
     }
 }

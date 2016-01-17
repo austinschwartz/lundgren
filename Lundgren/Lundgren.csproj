@@ -90,6 +90,7 @@
     <Compile Include="Controller\Helpers\JoystickHelper.cs" />
     <Compile Include="Controller\Helpers\SystemHelper.cs" />
     <Compile Include="Forms\Driver.cs" />
+    <Compile Include="Forms\Moves.cs" />
     <Compile Include="Game\GameState.cs" />
     <Compile Include="Game\GameData.cs" />
     <Compile Include="Game\Helpers\Formats.cs" />
