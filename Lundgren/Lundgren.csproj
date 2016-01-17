@@ -90,7 +90,9 @@
     <Compile Include="Forms\Driver.cs" />
     <Compile Include="Game\GameState.cs" />
     <Compile Include="Game\GameData.cs" />
+    <Compile Include="Game\Helpers\Formats.cs" />
     <Compile Include="Game\PlayerData.cs" />
+    <Compile Include="Game\StageData.cs" />
     <Compile Include="Ladder\Ladder.cs" />
     <Compile Include="Logs\Logging.cs" />
     <Compile Include="Game\Helpers\Memory.cs" />

@@ -19,7 +19,7 @@ namespace Lundgren.Game
 
 
         /* Values */
-        public float x = 0.0F, y = 0.0F;
+        public double x = 0.0D, y = 0.0D;
         public byte CostumeId = 0;
         public byte CharNum = 99;
         public byte Percent = 0;
@@ -52,9 +52,24 @@ namespace Lundgren.Game
                 return $"Lundgren.Game.Images.{Character.Replace(" ", "_").Replace("&", "and")}.{CostumeId + 1}.png";
             }
         }
+
+        public bool OnLeftLedge(StageData stage)
+        {
+            if (Math.Abs(this.x - stage.LeftEdge.x) < 0.1)
+                if (Math.Abs(this.y - stage.LeftEdge.y) < 0.1)
+                    return true;
+            return false;
+        }
+        public bool OnRightLedge(StageData stage)
+        {
+            if (Math.Abs(this.x - stage.RightEdge.x) < 0.1)
+                if (Math.Abs(this.y - stage.RightEdge.y) < 0.1)
+                    return true;
+            return false;
+        }
+
     }
 }
-//P1StockNum = Memory.ReadByte(0x8044310E); //8045310C
 /*
 var x = Memory.ReadBytesAsBytes(0x8044310C, 4, false);
 
@@ -64,5 +79,6 @@ if (x != null)
     // P1Suicides = probably x[1] or x[0]
 }
 
-P2StockNum = Memory.ReadByte(0x80443F9E);
+//P1StockNum = Memory.ReadByte(0x8044310E); //8045310C
+//P2StockNum = Memory.ReadByte(0x80443F9E);
 */

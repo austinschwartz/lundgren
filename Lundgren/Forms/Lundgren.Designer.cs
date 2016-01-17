@@ -256,7 +256,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(38, 13);
             this.label4.TabIndex = 39;
-            this.label4.Text = "Stage:";
+            this.label4.Text = "StageString:";
             // 
             // p1stocks
             // 

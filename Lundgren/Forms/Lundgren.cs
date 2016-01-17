@@ -72,6 +72,13 @@ namespace Lundgren
             var thisFrameNum = GameState.GetFrame();
             if (thisFrameNum == LastFrameNum)
                 return false;
+            if (GameState.p1 != null && GameState.Stage != null)
+            {
+                if (GameState.p1.OnLeftLedge(GameState.Stage))
+                    Debug.WriteLine("on left edge");
+                if (GameState.p1.OnRightLedge(GameState.Stage))
+                    Debug.WriteLine("on right edge");
+            }
 
             //Debug.WriteLine("On frame " + thisFrameNum);
             if (thisFrameNum != LastFrameNum + 1 && thisFrameNum > LastFrameNum)
@@ -103,7 +110,7 @@ namespace Lundgren
         private void UpdateTextboxes()
         {
             frame.Text = LastFrameNum.ToString();
-            stage.Text = GameState.Stage;
+            stage.Text = GameState.StageString;
 
             if (GameState.p1 != null)
             {
@@ -137,16 +144,6 @@ namespace Lundgren
             timer.Text = GameState.TimerString;
         }
 
-
-        public string MoveToString(HashSet<ButtonPress> set) 
-        {
-            StringBuilder sb = new StringBuilder();
-            foreach (var bp in set)
-            {
-                sb.Append(bp.ToString() + Environment.NewLine);
-            }
-            return sb.ToString();
-        }
 
         private void Log(object sender, Logging.LogEventArgs e)
         {
@@ -255,7 +252,6 @@ namespace Lundgren
 
         private void waveshineBtn_Click(object sender, EventArgs e)
         {
-
             var threadDelegate = new ThreadStart(MoveWaveshine);
             var t = new Thread(threadDelegate);
             Log(null, new Logging.LogEventArgs("Attempting to waveshine."));
