@@ -83,7 +83,7 @@ namespace Lundgren.Forms
             if (GameState.p1 != null)
             {
                 p1percent.Text = GameState.P1Percent;
-                p1Animation.Text = GameState.P1Animation;
+                p1Animation.Text = GameState.P1Action;
                 p1char.Text = GameState.P1Char;
                 p1stocks.Text = GameState.P1Stocks;
                 p1X.Text = GameState.P1X;
@@ -97,7 +97,7 @@ namespace Lundgren.Forms
             if (GameState.p2 != null)
             {
                 p2percent.Text = GameState.P2Percent;
-                p2Animation.Text = GameState.P2Animation;
+                p2Animation.Text = GameState.P2Action;
                 p2char.Text = GameState.P2Char;
                 p2stocks.Text = GameState.P2Stocks;
                 p2X.Text = GameState.P2X;
@@ -146,21 +146,25 @@ namespace Lundgren.Forms
 
         private void multishineBtn_Click(object sender, EventArgs e)
         {
+            /*
             var threadDelegate = new ThreadStart(Moves.MoveMultiShine);
             var t = new Thread(threadDelegate);
             Log(null, new Logging.LogEventArgs("Attempting to multishine."));
             t.Start();
+            */
+            Moves.MoveMultiShine();
         }
 
 
         private void lolBtn_Click(object sender, EventArgs e)
         {
-            var threadDelegate = new ThreadStart(Moves.MoveLol);
-            var t = new Thread(threadDelegate);
-            Log(null, new Logging.LogEventArgs("Attempting to multishine."));
-            t.Start();
+            Moves.MoveLol();
         }
 
+        private void btnMove_Click(object sender, EventArgs e)
+        {
+            Moves.MoveTowards();
+        }
 
         /* Side buttons */
 
@@ -231,6 +235,5 @@ namespace Lundgren.Forms
                 Log(null, new Logging.LogEventArgs("Driver is already started."));
             }
         }
-
     }
 }

@@ -11,10 +11,10 @@ namespace Lundgren.AI
 {
     public class Lundgren : IBot
     {
-        public override MoveQueue Queue { get; set; }
+        public override sealed MoveQueue Queue { get; set; }
 
         public override ControllerState State { get; set; }
-        public override ControllerState Prev { get; set; }
+        public override sealed ControllerState Prev { get; set; }
 
         public Lundgren()
         {
@@ -25,8 +25,7 @@ namespace Lundgren.AI
         public override bool ProcessMoves()
         {
             var lastFrameNum = GameState.LastFrame;
-            var thisFrameNum = GameState.Frame;
-            //Debug.WriteLine(thisFrameNum + " " + lastFrameNum);
+            var thisFrameNum = GameState.GetFrame();
 
             if (thisFrameNum == lastFrameNum)
                 return false;
@@ -39,22 +38,21 @@ namespace Lundgren.AI
                     Debug.WriteLine("on right edge");
             }
 
-            //Debug.WriteLine("On frame " + thisFrameNum);
-            if (thisFrameNum != lastFrameNum + 1 && thisFrameNum > lastFrameNum)
+            if (thisFrameNum != lastFrameNum + 1)
                 Debug.WriteLine($"Lost frames between { lastFrameNum } and { thisFrameNum }");
 
-            lastFrameNum = thisFrameNum;
             Prev = State;
             if (Queue.HasFrame(thisFrameNum))
             {
-                Debug.WriteLine($"Performing move on frame { thisFrameNum }");
+                //Debug.WriteLine($"Performing move on frame { thisFrameNum }");
                 State = Queue.Get(thisFrameNum);
-                var rem = Queue.Remove(thisFrameNum);
+                //Debug.WriteLine(State);
+                //var rem = Queue.Remove(thisFrameNum);
                 //LogFrameState(thisFrameNum, State, rem);
             }
             else
             {
-                State = new ControllerState(lastFrameNum);
+                State = new ControllerState(thisFrameNum);
             }
             return true;
         }

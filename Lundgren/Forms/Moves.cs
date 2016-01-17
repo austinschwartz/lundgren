@@ -97,7 +97,7 @@ namespace Lundgren.Forms
 
                 _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 10, new StickPress(Direction.SE));
                 _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 10, new ShoulderPress(150));
-                currentFrame += 15;
+                currentFrame += 55;
 
                 _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 0, new StickPress(Direction.S));
                 _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 0, new DigitalPress(DigitalButton.B));
@@ -106,7 +106,7 @@ namespace Lundgren.Forms
 
                 _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 10, new StickPress(Direction.SW));
                 _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 10, new ShoulderPress(150));
-                currentFrame += 15;
+                currentFrame += 55;
             }
         }
 
@@ -114,34 +114,42 @@ namespace Lundgren.Forms
         {
             var currentFrame = GameState.LastFrame + 10;
 
-            for (var i = 0; i < 10; i++)
+            for (var i = 0; i < 30; i++)
             {
+                var aix = GameState.p1.x;
+                var playerx = GameState.p2.x;
+                var dir = playerx > aix ? Direction.E : Direction.W;
+                _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 0, new StickPress(dir));
                 _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 1, new StickPress(Direction.S));
                 _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 1, new DigitalPress(DigitalButton.B));
 
-                _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 4, new DigitalPress(DigitalButton.Y));
+                _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 5, new DigitalPress(DigitalButton.Y));
 
-                _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 7, new StickPress(Direction.S));
-                _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 7, new DigitalPress(DigitalButton.B));
+                _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 8, new StickPress(Direction.S));
+                _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 8, new DigitalPress(DigitalButton.B));
 
-                _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 12, new DigitalPress(DigitalButton.Y));
+                _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 14, new StickPress(Direction.N));
+                _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 15, new StickPress(dir));
+                _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 16, new StickPress(dir));
+                _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 17, new StickPress(dir));
 
-                _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 15, new StickPress(Direction.S));
-                _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 15, new DigitalPress(DigitalButton.B));
-                _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 20, new DigitalPress(DigitalButton.Y));
+                _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 18, new DigitalPress(DigitalButton.A));
+                _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 19, new StickPress(dir));
+                _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 20, new StickPress(dir));
+                _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 21, new StickPress(dir));
+                _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 22, new StickPress(dir));
+                _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 23, new StickPress(dir));
+                _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 24, new StickPress(dir));
+                _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 25, new DigitalPress(DigitalButton.R));
+                _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 26, new DigitalPress(DigitalButton.R));
+                _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 27, new DigitalPress(DigitalButton.R));
 
-                _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 23, new DigitalPress(DigitalButton.B));
 
-                _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 28, new DigitalPress(DigitalButton.Y));
 
-                _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 31, new DigitalPress(DigitalButton.B));
-
-                _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 36, new DigitalPress(DigitalButton.Y));
-
-                currentFrame += 40;
+                currentFrame += 60;
             }
 
-            Debug.WriteLine(_lundgrenForm.CurrentAI.Queue.ToString());
+            //Debug.WriteLine(_lundgrenForm.CurrentAI.Queue.ToString());
             /*
             queue.AddToFrame(((currentFrame + 39) % 60), new StickPress(Direction.S));
             queue.AddToFrame(((currentFrame + 39) % 60), new DigitalPress(DigitalButton.B));
@@ -185,6 +193,24 @@ namespace Lundgren.Forms
                 dir2 = temp;
             }
 
+
+        }
+
+        public void MoveTowards()
+        {
+            var currentFrame = GameState.LastFrame + 15;
+
+            double aix = GameState.p1.x;
+            double playerx = GameState.p2.x;
+
+            if (playerx > aix)
+            {
+                _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 1, new StickPress(Direction.E));
+            }
+            else
+            {
+                _lundgrenForm.CurrentAI.Queue.AddToFrame(currentFrame + 1, new StickPress(Direction.W));
+            }
 
         }
     }

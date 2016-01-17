@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using LibUsbDotNet;
 using LibUsbDotNet.Main;
 using Lundgren.Controller;
@@ -77,11 +78,11 @@ namespace Lundgren
                     run = true;
                     while (run)
                     {
-                        if (gcn1ok && GameState.Frame != GameState.LastFrame)
+                        //Debug.WriteLine(gcn1ok + " " + GameState.Frame + " " + GameState.LastFrame);
+                        if (gcn1ok && GameState.LastFrame != GameState.CurrentFrame)
                         {
                             JoystickHelper.setJoystick(ref gcn1, _lundgrenForm.CurrentAI.State, 1, gcn1DZ);
                         }
-                        System.Threading.Thread.Sleep(5);
                     }
 
                     if (GCNAdapter != null)

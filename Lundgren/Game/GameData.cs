@@ -512,15 +512,12 @@ namespace Lundgren.Game
             return _externalCharIds[charNum];
         }
 
-        public static string Animation(int state)
+        public static string Action(uint state)
         {
-            return "??";
-            /*
             if (state < 382 && state >= 0)
                 return _animationID[state];
             else
                 return "None";
-                */
         }
     }
 }

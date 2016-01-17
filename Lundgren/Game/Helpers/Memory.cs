@@ -63,6 +63,16 @@ namespace Lundgren.Game.Helpers
         {
             return System.BitConverter.ToSingle(bytes, 0);
         }
+        public static long BytesToLong(params byte[] bytes)
+        {
+            return System.BitConverter.ToUInt32(bytes, 0);
+        }
+        public static uint BytesToInt32(params byte[] bytes)
+        {
+            return System.BitConverter.ToUInt32(bytes, 0);
+        }
+
+
         public static UInt32 BytesToInt32(byte[] bytes, int i)
         {
             return System.BitConverter.ToUInt32(bytes, i);

@@ -68,6 +68,7 @@
             this.p2Y = new System.Windows.Forms.TextBox();
             this.p1PictureBox = new System.Windows.Forms.PictureBox();
             this.p2PictureBox = new System.Windows.Forms.PictureBox();
+            this.btnMove = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.p1PictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.p2PictureBox)).BeginInit();
             this.SuspendLayout();
@@ -416,11 +417,22 @@
             this.p2PictureBox.TabIndex = 60;
             this.p2PictureBox.TabStop = false;
             // 
+            // btnMove
+            // 
+            this.btnMove.Location = new System.Drawing.Point(542, 216);
+            this.btnMove.Name = "btnMove";
+            this.btnMove.Size = new System.Drawing.Size(108, 35);
+            this.btnMove.TabIndex = 61;
+            this.btnMove.Text = "move towards ";
+            this.btnMove.UseVisualStyleBackColor = true;
+            this.btnMove.Click += new System.EventHandler(this.btnMove_Click);
+            // 
             // LundgrenForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(657, 380);
+            this.Controls.Add(this.btnMove);
             this.Controls.Add(this.p2PictureBox);
             this.Controls.Add(this.p1PictureBox);
             this.Controls.Add(this.p2Y);
@@ -511,6 +523,7 @@
         private System.Windows.Forms.TextBox p2Y;
         private System.Windows.Forms.PictureBox p1PictureBox;
         private System.Windows.Forms.PictureBox p2PictureBox;
+        private System.Windows.Forms.Button btnMove;
     }
 }
 

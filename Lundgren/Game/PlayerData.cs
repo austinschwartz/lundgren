@@ -24,21 +24,32 @@ namespace Lundgren.Game
         public byte CharNum = 99;
         public byte Percent = 0;
         public byte StockNum = 0;
-        public int AnimationNum = 0;
+        public uint ActionNum = 0;
+        public uint AnimationNum = 0;
 
         public String Character => GameData.ExternalChar(CharNum);
 
         public PlayerData(Player player)
         {
-            var temp = Memory.ReadBytesAsBytes(StaticAddress[(int)player], 0xB4, false);
-            if (temp == null) return;
+            /* Static character block */
+            var staticBlock = Memory.ReadBytesAsBytes(StaticAddress[(int)player], 0xB4, false);
+            if (staticBlock == null) return;
 
-            x = Memory.BytesToFloat(temp[19], temp[18], temp[17], temp[16]);
-            y = Memory.BytesToFloat(temp[23], temp[22], temp[21], temp[20]);
-            CostumeId = temp[68];
+            x = Memory.BytesToFloat(staticBlock[19], staticBlock[18], staticBlock[17], staticBlock[16]);
+            y = Memory.BytesToFloat(staticBlock[23], staticBlock[22], staticBlock[21], staticBlock[20]);
+            CostumeId = staticBlock[68];
 
             Percent = Memory.ReadByte(PercentAddress[(int)player]);
             CharNum = Memory.ReadByte(CharNumAddress[(int)player]);
+
+            /* Character block */
+            long player1Pointer = Memory.BytesToLong(staticBlock[179], staticBlock[178], staticBlock[177], staticBlock[176]) - 0x10000;
+            var temp = Memory.ReadBytesAsBytes(player1Pointer, 0x14C, false);
+            if (temp == null) return;
+
+            ActionNum = Memory.BytesToInt32(temp[115], temp[114], temp[113], temp[112]);
+            AnimationNum = Memory.BytesToInt32(temp[119], temp[118], temp[117], temp[116]);
+
 
         }
 
