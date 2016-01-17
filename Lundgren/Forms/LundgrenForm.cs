@@ -1,38 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Text;
 using System.Threading;
 using System.Timers;
 using System.Windows.Forms;
+using Lundgren.AI;
 using Lundgren.Controller;
 using Lundgren.Game;
 using Lundgren.Game.Helpers;
 using Lundgren.Logs;
-using Timer = System.Timers.Timer;
 
-namespace Lundgren
+namespace Lundgren.Forms
 {
-    public partial class Lundgren : Form
+    public partial class LundgrenForm : Form
     {
-        private System.Reflection.Assembly assembly
+        private readonly System.Reflection.Assembly _assembly
             = System.Reflection.Assembly.GetExecutingAssembly();
 
-        private System.Timers.Timer        _gameTimer = new System.Timers.Timer();
-        private System.Windows.Forms.Timer _formTimer = new System.Windows.Forms.Timer();
+        private readonly System.Timers.Timer        _gameTimer = new System.Timers.Timer();
+        private readonly System.Windows.Forms.Timer _formTimer = new System.Windows.Forms.Timer();
 
-        public static int LastFrameNum = 0;
+        public IBot CurrentAI;
 
-        private MoveQueue queue = new MoveQueue();
-        public ControllerState State, Prev;
-
-        public Lundgren()
+        public LundgrenForm()
         {
             // Refactor this later
-            queue = new MoveQueue();
-            Prev = new ControllerState(-1);
 
             InitializeComponent();
 
@@ -49,6 +42,8 @@ namespace Lundgren
             Driver.DriverLog += Log;
             Driver.InputLog += Log;
             JoystickHelper.JoystickLog += Log;
+
+            CurrentAI = new AI.Lundgren();
         }
         
         public Driver Driver { get; }
@@ -63,45 +58,13 @@ namespace Lundgren
 
         void MoveTimer(Object sender, EventArgs e)
         {
-            if (ProcessMoves() == false)
+            if (CurrentAI == null)
+                return;
+            if (CurrentAI.ProcessMoves() == false)
                 return;
         }
 
-        private bool ProcessMoves()
-        {
-            var thisFrameNum = GameState.GetFrame();
-            if (thisFrameNum == LastFrameNum)
-                return false;
-            if (GameState.p1 != null && GameState.Stage != null)
-            {
-                if (GameState.p1.OnLeftLedge(GameState.Stage))
-                    Debug.WriteLine("on left edge");
-                if (GameState.p1.OnRightLedge(GameState.Stage))
-                    Debug.WriteLine("on right edge");
-            }
-
-            //Debug.WriteLine("On frame " + thisFrameNum);
-            if (thisFrameNum != LastFrameNum + 1 && thisFrameNum > LastFrameNum)
-                Debug.WriteLine($"Lost frames between { LastFrameNum } and { thisFrameNum }");
-
-            LastFrameNum = thisFrameNum;
-            Prev = State;
-            if (queue.HasFrame(thisFrameNum))
-            {
-                Debug.WriteLine($"Performing move on frame { thisFrameNum }");
-                State = queue.Get(thisFrameNum);
-                var rem = queue.Remove(thisFrameNum);
-                LogFrameState(thisFrameNum, State, rem);
-            }
-            else
-            {
-                State = new ControllerState(LastFrameNum);
-            }
-            return true;
-        }
-
-
-        private void FormTimer(Object sender, EventArgs e)
+        private void FormTimer(Object sender, EventArgs e) 
         {
             GameState.GetState();
             UpdateTextboxes();
@@ -109,7 +72,7 @@ namespace Lundgren
 
         private void UpdateTextboxes()
         {
-            frame.Text = LastFrameNum.ToString();
+            frame.Text = GameState.LastFrame.ToString();
             stage.Text = GameState.StageString;
 
             if (GameState.p1 != null)
@@ -122,7 +85,7 @@ namespace Lundgren
                 p1Y.Text = GameState.P1Y;
                 if (GameState.p1.HasCharacterSelected)
                 {
-                    Stream myStream = assembly.GetManifestResourceStream(GameState.p1.CharacterImage);
+                    Stream myStream = _assembly.GetManifestResourceStream(GameState.p1.CharacterImage);
                     if (myStream != null) p1PictureBox.Image = new Bitmap(myStream);
                 }
             }
@@ -136,7 +99,7 @@ namespace Lundgren
                 p2Y.Text = GameState.P2Y;
                 if (GameState.p2.HasCharacterSelected)
                 {
-                    Stream myStream = assembly.GetManifestResourceStream(GameState.p2.CharacterImage);
+                    Stream myStream = _assembly.GetManifestResourceStream(GameState.p2.CharacterImage);
                     if (myStream != null) p2PictureBox.Image = new Bitmap(myStream);
                 }
             }
@@ -169,25 +132,25 @@ namespace Lundgren
 
         private void AttemptToPickFox()
         {
-            var currentFrame = LastFrameNum + 5;
+            var currentFrame = GameState.LastFrame + 5;
             for (var i = 0; i < 8; i++)
             {
                 currentFrame++;
-                queue.AddToFrame(currentFrame, new StickPress(Direction.NE));
+                CurrentAI._queue.AddToFrame(currentFrame, new StickPress(Direction.NE));
                 currentFrame++;
-                queue.AddToFrame(currentFrame, new StickPress(Direction.N));
+                CurrentAI._queue.AddToFrame(currentFrame, new StickPress(Direction.N));
             }
-            queue.AddToFrame(currentFrame + 1, new DigitalPress(DigitalButton.A));
+            CurrentAI._queue.AddToFrame(currentFrame + 1, new DigitalPress(DigitalButton.A));
             for (var i = 0; i < 8; i++)
             {
                 currentFrame++;
-                queue.AddToFrame(currentFrame, new StickPress(Direction.SE));
+                CurrentAI._queue.AddToFrame(currentFrame, new StickPress(Direction.SE));
                 currentFrame++;
-                queue.AddToFrame(currentFrame, new StickPress(Direction.S));
+                CurrentAI._queue.AddToFrame(currentFrame, new StickPress(Direction.S));
             }
-            queue.AddToFrame(currentFrame + 1, new DigitalPress(DigitalButton.A));
-            queue.AddToFrame(currentFrame + 15, new DigitalPress(DigitalButton.A));
-            queue.AddToFrame(currentFrame + 30, new DigitalPress(DigitalButton.Start));
+            CurrentAI._queue.AddToFrame(currentFrame + 1, new DigitalPress(DigitalButton.A));
+            CurrentAI._queue.AddToFrame(currentFrame + 15, new DigitalPress(DigitalButton.A));
+            CurrentAI._queue.AddToFrame(currentFrame + 30, new DigitalPress(DigitalButton.Start));
         }
 
         private void AttemptToPickAndName20XX()
@@ -198,25 +161,25 @@ namespace Lundgren
 
         private void AttemptToName20XX()
         {
-            var currentFrame = LastFrameNum + 1;
+            var currentFrame = GameState.LastFrame + 1;
             for (var i = 0; i < 20; i++)
             {
                 currentFrame++;
-                queue.AddToFrame(currentFrame, new StickPress(Direction.S));
+                CurrentAI._queue.AddToFrame(currentFrame, new StickPress(Direction.S));
             }
             Thread.Sleep(100);
-            queue.Clear();
-            queue.AddToFrame(LastFrameNum + 5, new DigitalPress(DigitalButton.A));
+            CurrentAI._queue.Clear();
+            CurrentAI._queue.AddToFrame(GameState.LastFrame + 5, new DigitalPress(DigitalButton.A));
 
         }
 
         private void AttemptToPickFox20XX()
         {
-            var currentFrame = LastFrameNum + 5;
+            var currentFrame = GameState.LastFrame + 5;
             for (var i = 0; i < 6; i++)
             {
                 currentFrame++;
-                queue.AddToFrame(currentFrame + i, new StickPress(Direction.N));
+                CurrentAI._queue.AddToFrame(currentFrame + i, new StickPress(Direction.N));
             }
             Thread.Sleep(100);
 
@@ -225,13 +188,13 @@ namespace Lundgren
             while (p1 != 2)
             {
                 prev = p1;
-                queue.AddToFrame(LastFrameNum + 1, new DigitalPress(DigitalButton.B));
-                queue.AddToFrame(LastFrameNum + 2, new DigitalPress(DigitalButton.A));
+                CurrentAI._queue.AddToFrame(GameState.LastFrame + 1, new DigitalPress(DigitalButton.B));
+                CurrentAI._queue.AddToFrame(GameState.LastFrame + 2, new DigitalPress(DigitalButton.A));
                 Thread.Sleep(75);
                 p1 = Memory.ReadByte(0x8042208F);
                 if (p1 != 2) continue;
                 Log(null, new Logging.LogEventArgs("Fox selected!"));
-                queue.Clear();
+                CurrentAI._queue.Clear();
                 return;
             }
         }
@@ -242,9 +205,9 @@ namespace Lundgren
             // This doesn't work at all
             int count = 0;
             Debug.WriteLine("Beginning to wait...");
-            while (LastFrameNum != frame)
+            while (GameState.LastFrame != frame)
             {
-                Debug.WriteLine("wait..." + LastFrameNum + " " + frame);
+                Debug.WriteLine("wait..." + GameState.LastFrame + " " + frame);
                 count++;
             }
             Debug.WriteLine("Done waiting... waited " + count);
@@ -260,25 +223,25 @@ namespace Lundgren
 
         private void MoveWaveshine()
         {
-            int currentFrame = LastFrameNum + 15;
+            int currentFrame = GameState.LastFrame + 15;
 
             for (int i = 0; i < 10; i++) {
-                queue.AddToFrame(currentFrame + 0, new StickPress(Direction.S));
-                queue.AddToFrame(currentFrame + 0, new DigitalPress(DigitalButton.B));
+                CurrentAI._queue.AddToFrame(currentFrame + 0, new StickPress(Direction.S));
+                CurrentAI._queue.AddToFrame(currentFrame + 0, new DigitalPress(DigitalButton.B));
 
-                queue.AddToFrame(currentFrame + 6, new DigitalPress(DigitalButton.Y));
+                CurrentAI._queue.AddToFrame(currentFrame + 6, new DigitalPress(DigitalButton.Y));
 
-                queue.AddToFrame(currentFrame + 10, new StickPress(Direction.SE));
-                queue.AddToFrame(currentFrame + 10, new ShoulderPress(150));
+                CurrentAI._queue.AddToFrame(currentFrame + 10, new StickPress(Direction.SE));
+                CurrentAI._queue.AddToFrame(currentFrame + 10, new ShoulderPress(150));
                 currentFrame += 15;
 
-                queue.AddToFrame(currentFrame + 0, new StickPress(Direction.S));
-                queue.AddToFrame(currentFrame + 0, new DigitalPress(DigitalButton.B));
+                CurrentAI._queue.AddToFrame(currentFrame + 0, new StickPress(Direction.S));
+                CurrentAI._queue.AddToFrame(currentFrame + 0, new DigitalPress(DigitalButton.B));
 
-                queue.AddToFrame(currentFrame + 6, new DigitalPress(DigitalButton.Y));
+                CurrentAI._queue.AddToFrame(currentFrame + 6, new DigitalPress(DigitalButton.Y));
 
-                queue.AddToFrame(currentFrame + 10, new StickPress(Direction.SW));
-                queue.AddToFrame(currentFrame + 10, new ShoulderPress(150));
+                CurrentAI._queue.AddToFrame(currentFrame + 10, new StickPress(Direction.SW));
+                CurrentAI._queue.AddToFrame(currentFrame + 10, new ShoulderPress(150));
                 currentFrame += 15;
             }
         }
@@ -295,37 +258,37 @@ namespace Lundgren
 
         private void MoveMultiShine()
         {
-            var currentFrame = LastFrameNum + 10;
+            var currentFrame = GameState.LastFrame + 10;
 
             for (var i = 0; i < 10; i++)
             {
                  
-                queue.AddToFrame(currentFrame + 1, new StickPress(Direction.S));
-                queue.AddToFrame(currentFrame + 1, new DigitalPress(DigitalButton.B));
+                CurrentAI._queue.AddToFrame(currentFrame + 1, new StickPress(Direction.S));
+                CurrentAI._queue.AddToFrame(currentFrame + 1, new DigitalPress(DigitalButton.B));
 
-                queue.AddToFrame(currentFrame + 4, new DigitalPress(DigitalButton.Y));
+                CurrentAI._queue.AddToFrame(currentFrame + 4, new DigitalPress(DigitalButton.Y));
 
-                queue.AddToFrame(currentFrame + 7, new StickPress(Direction.S));
-                queue.AddToFrame(currentFrame + 7, new DigitalPress(DigitalButton.B));
+                CurrentAI._queue.AddToFrame(currentFrame + 7, new StickPress(Direction.S));
+                CurrentAI._queue.AddToFrame(currentFrame + 7, new DigitalPress(DigitalButton.B));
 
-                queue.AddToFrame(currentFrame + 12, new DigitalPress(DigitalButton.Y));
+                CurrentAI._queue.AddToFrame(currentFrame + 12, new DigitalPress(DigitalButton.Y));
 
-                queue.AddToFrame(currentFrame + 15, new StickPress(Direction.S));
-                queue.AddToFrame(currentFrame + 15, new DigitalPress(DigitalButton.B));
-                queue.AddToFrame(currentFrame + 20, new DigitalPress(DigitalButton.Y));
+                CurrentAI._queue.AddToFrame(currentFrame + 15, new StickPress(Direction.S));
+                CurrentAI._queue.AddToFrame(currentFrame + 15, new DigitalPress(DigitalButton.B));
+                CurrentAI._queue.AddToFrame(currentFrame + 20, new DigitalPress(DigitalButton.Y));
             
-                queue.AddToFrame(currentFrame + 23, new DigitalPress(DigitalButton.B));
+                CurrentAI._queue.AddToFrame(currentFrame + 23, new DigitalPress(DigitalButton.B));
 
-                queue.AddToFrame(currentFrame + 28, new DigitalPress(DigitalButton.Y));
+                CurrentAI._queue.AddToFrame(currentFrame + 28, new DigitalPress(DigitalButton.Y));
             
-                queue.AddToFrame(currentFrame + 31, new DigitalPress(DigitalButton.B));
+                CurrentAI._queue.AddToFrame(currentFrame + 31, new DigitalPress(DigitalButton.B));
 
-                queue.AddToFrame(currentFrame + 36, new DigitalPress(DigitalButton.Y));
+                CurrentAI._queue.AddToFrame(currentFrame + 36, new DigitalPress(DigitalButton.Y));
 
                 currentFrame += 40;
             }
 
-            Debug.WriteLine(queue.ToString());
+            Debug.WriteLine(CurrentAI._queue.ToString());
             /*
             queue.AddToFrame(((currentFrame + 39) % 60), new StickPress(Direction.S));
             queue.AddToFrame(((currentFrame + 39) % 60), new DigitalPress(DigitalButton.B));
@@ -355,7 +318,7 @@ namespace Lundgren
 
         private void MoveLol()
         {
-            var currentFrame = LastFrameNum + 15;
+            var currentFrame = GameState.LastFrame + 15;
 
             var dir1 = Direction.E;
             var dir2 = Direction.W;
@@ -363,15 +326,15 @@ namespace Lundgren
 
             for (var i = 0; i < 20; i++)
             {
-                queue.AddToFrame(currentFrame + 1, new StickPress(dir1));
-                queue.AddToFrame(currentFrame + 0, new StickPress(Direction.S));
-                queue.AddToFrame(currentFrame + 0, new DigitalPress(DigitalButton.B));
+                CurrentAI._queue.AddToFrame(currentFrame + 1, new StickPress(dir1));
+                CurrentAI._queue.AddToFrame(currentFrame + 0, new StickPress(Direction.S));
+                CurrentAI._queue.AddToFrame(currentFrame + 0, new DigitalPress(DigitalButton.B));
 
-                queue.AddToFrame(currentFrame + 4, new DigitalPress(DigitalButton.Y));
+                CurrentAI._queue.AddToFrame(currentFrame + 4, new DigitalPress(DigitalButton.Y));
 
-                queue.AddToFrame(currentFrame + 7, new DigitalPress(DigitalButton.B));
-                queue.AddToFrame(currentFrame + 13, new DigitalPress(DigitalButton.B));
-                queue.AddToFrame(currentFrame + 14, new DigitalPress(DigitalButton.B));
+                CurrentAI._queue.AddToFrame(currentFrame + 7, new DigitalPress(DigitalButton.B));
+                CurrentAI._queue.AddToFrame(currentFrame + 13, new DigitalPress(DigitalButton.B));
+                CurrentAI._queue.AddToFrame(currentFrame + 14, new DigitalPress(DigitalButton.B));
                 currentFrame += 35;
                 var temp = dir1;
                 dir1 = dir2;
@@ -386,49 +349,49 @@ namespace Lundgren
 
         private void btnA_Click(object sender, EventArgs e)
         {
-            queue.AddToFrame(LastFrameNum + 15, new DigitalPress(DigitalButton.A));
-            Log(null, new Logging.LogEventArgs("Adding A to frame " + (LastFrameNum + 15)));
+            CurrentAI._queue.AddToFrame(GameState.LastFrame + 15, new DigitalPress(DigitalButton.A));
+            Log(null, new Logging.LogEventArgs("Adding A to frame " + (GameState.LastFrame + 15)));
         }
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            queue.AddToFrame(LastFrameNum + 15, new DigitalPress(DigitalButton.Start));
+            CurrentAI._queue.AddToFrame(GameState.LastFrame + 15, new DigitalPress(DigitalButton.Start));
         }
 
         private void btnB_Click(object sender, EventArgs e)
         {
-            queue.AddToFrame(LastFrameNum + 15, new DigitalPress(DigitalButton.B));
+            CurrentAI._queue.AddToFrame(GameState.LastFrame + 15, new DigitalPress(DigitalButton.B));
         }
 
         private void btnY_Click(object sender, EventArgs e)
         {
-            queue.AddToFrame(LastFrameNum + 150, new DigitalPress(DigitalButton.Y));
-            Log(null, new Logging.LogEventArgs("Adding A to frame " + (LastFrameNum + 150)));
+            CurrentAI._queue.AddToFrame(GameState.LastFrame + 150, new DigitalPress(DigitalButton.Y));
+            Log(null, new Logging.LogEventArgs("Adding A to frame " + (GameState.LastFrame + 150)));
         }
 
         private void btnX_Click(object sender, EventArgs e)
         {
-            queue.AddToFrame(LastFrameNum + 15, new DigitalPress(DigitalButton.X));
+            CurrentAI._queue.AddToFrame(GameState.LastFrame + 15, new DigitalPress(DigitalButton.X));
         }
 
         private void btnSRight_Click(object sender, EventArgs e)
         {
-            queue.AddToFrame(LastFrameNum + 15, new StickPress(Direction.E));
+            CurrentAI._queue.AddToFrame(GameState.LastFrame + 15, new StickPress(Direction.E));
         }
 
         private void btnSUp_Click(object sender, EventArgs e)
         {
-            queue.AddToFrame(LastFrameNum + 15, new StickPress(Direction.N));
+            CurrentAI._queue.AddToFrame(GameState.LastFrame + 15, new StickPress(Direction.N));
         }
 
         private void btnSDown_Click(object sender, EventArgs e)
         {
-            queue.AddToFrame(LastFrameNum + 15, new StickPress(Direction.S));
+            CurrentAI._queue.AddToFrame(GameState.LastFrame + 15, new StickPress(Direction.S));
         }
 
         private void btnSLeft_Click(object sender, EventArgs e)
         {
-            queue.AddToFrame(LastFrameNum + 15, new StickPress(Direction.W));
+            CurrentAI._queue.AddToFrame(GameState.LastFrame + 15, new StickPress(Direction.W));
         }
 
         private void btnThing_Click(object sender, EventArgs e)

@@ -1,6 +1,6 @@
-﻿namespace Lundgren
+﻿namespace Lundgren.Forms
 {
-    partial class Lundgren
+    partial class LundgrenForm
     {
         /// <summary>
         /// Required designer variable.
@@ -416,7 +416,7 @@
             this.p2PictureBox.TabIndex = 60;
             this.p2PictureBox.TabStop = false;
             // 
-            // Lundgren
+            // LundgrenForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;

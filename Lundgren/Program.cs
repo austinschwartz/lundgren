@@ -16,7 +16,7 @@ namespace Lundgren
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Lundgren());
+            Application.Run(new Forms.LundgrenForm());
         }
     }
 }

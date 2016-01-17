@@ -29,6 +29,7 @@ namespace Lundgren.Game
         }
 
         public static int LastFrame = 0;
+        public static int CurrentFrame = 0;
 
         public static Memory Mem = null;
 
@@ -98,16 +99,19 @@ namespace Lundgren.Game
             return TimeSpan.FromHours(8).Subtract(TimeSpan.FromSeconds(timerBytes));
         }
 
-        public static int GetFrame()
+        public static int Frame
         {
-            if (!Memory.Initialized)
-                Memory.Initialize();
+            get
+            {
+                if (!Memory.Initialized)
+                    Memory.Initialize();
 
-            var frame = Memory.ReadBytes(0x80469D5C, 4);
-            if (frame <= LastFrame)
-                frame++;
-            LastFrame = frame;
-            return frame;
+                var frame = Memory.ReadBytes(0x80469D5C, 4);
+                if (frame <= LastFrame)
+                    frame++;
+                LastFrame = frame;
+                return frame;
+            }
         }
 
 

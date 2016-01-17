@@ -79,6 +79,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AI\IBot.cs" />
+    <Compile Include="AI\Lundgren.cs" />
     <Compile Include="Controller\ButtonPress.cs" />
     <Compile Include="Controller\DeadZone.cs" />
     <Compile Include="Controller\MoveQueue.cs" />
@@ -96,16 +98,16 @@
     <Compile Include="Ladder\Ladder.cs" />
     <Compile Include="Logs\Logging.cs" />
     <Compile Include="Game\Helpers\Memory.cs" />
-    <Compile Include="Forms\Lundgren.cs">
+    <Compile Include="Forms\LundgrenForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Lundgren.Designer.cs">
-      <DependentUpon>Lundgren.cs</DependentUpon>
+    <Compile Include="Forms\LundgrenForm.Designer.cs">
+      <DependentUpon>LundgrenForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Forms\Lundgren.resx">
-      <DependentUpon>Lundgren.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\LundgrenForm.resx">
+      <DependentUpon>LundgrenForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

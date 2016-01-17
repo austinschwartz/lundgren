@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lundgren.Controller
 {
-    class MoveQueue
+    public class MoveQueue
     {
         Dictionary<int, ControllerState> moveDict;
 

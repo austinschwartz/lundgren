@@ -2,6 +2,7 @@ using System;
 using LibUsbDotNet;
 using LibUsbDotNet.Main;
 using Lundgren.Controller;
+using Lundgren.Game;
 using Lundgren.Logs;
 using vJoyInterfaceWrap;
 
@@ -9,7 +10,7 @@ namespace Lundgren
 {
     public class Driver
     {
-        private Lundgren _lundgren;
+        private Forms.LundgrenForm _lundgrenForm;
 
         public static ControllerDeadZones gcn1DZ;
 
@@ -25,9 +26,9 @@ namespace Lundgren
         private UsbDevice GCNAdapter = null;
         private IUsbDevice wholeGCNAdapter = null;
 
-        public Driver(Lundgren lundgren)
+        public Driver(Forms.LundgrenForm lundgrenForm)
         {
-            _lundgren = lundgren;
+            _lundgrenForm = lundgrenForm;
         }
 
         public static event EventHandler<Logging.LogEventArgs> DriverLog;
@@ -76,9 +77,9 @@ namespace Lundgren
                     run = true;
                     while (run)
                     {
-                        if (gcn1ok && _lundgren.State.Frame != _lundgren.Prev.Frame)
+                        if (gcn1ok && GameState.Frame != GameState.LastFrame)
                         {
-                            JoystickHelper.setJoystick(ref gcn1, _lundgren.State, 1, gcn1DZ);
+                            JoystickHelper.setJoystick(ref gcn1, _lundgrenForm.CurrentAI.State, 1, gcn1DZ);
                         }
                         System.Threading.Thread.Sleep(5);
                     }
