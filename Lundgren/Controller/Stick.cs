@@ -9,7 +9,9 @@ namespace Lundgren.Controller
 {
     public enum Direction { N, NE, E, SE, S, SW, W, NW };
 
-    class StickPress : AnalogPress
+    /* this is pretty garbage, fix later */
+
+    class StickPress : ButtonPress
     {
         private static readonly Tuple<int, int> Center = Tuple.Create(128, 120);
         public byte x, y;
@@ -41,15 +43,15 @@ namespace Lundgren.Controller
             y = (byte)(Center.Item2 + offsets.Item2);
         }
 
-        public StickPress(int radius, int theta)
+        public StickPress(double r, double rad)
         {
-            x = (byte)((radius * Math.Cos(theta)) % 256);
-            y = (byte)((radius * Math.Sin(theta)) % 256);
+            x = (byte)((r * Math.Cos(rad)) + 127);
+            y = (byte)((r * Math.Sin(rad)) + 127);
         }
-        public StickPress(int theta)
+        public StickPress(double rad)
         {
-            x = (byte)((360 * Math.Cos(theta)) % 256);
-            y = (byte)((360 * Math.Sin(theta)) % 256);
+            x = (byte)((127 * Math.Cos(rad)) + 127);
+            y = (byte)((127 * Math.Sin(rad)) + 127);
         }
 
         public StickPress(double x1, double y1, double x2, double y2)
@@ -97,16 +99,17 @@ namespace Lundgren.Controller
             this.x = (byte)(Center.Item1 + offsets.Item1);
             this.y = (byte)(Center.Item2 + offsets.Item2);
         }
-        public C_StickPress(int radius, int theta) : base(radius, theta)
+        public C_StickPress(double r, double rad) : base(r, rad)
         {
-            x = (byte)((radius * Math.Cos(theta)) % 256);
-            y = (byte)((radius * Math.Sin(theta)) % 256);
+            x = (byte)((r * Math.Cos(rad)) + 127);
+            y = (byte)((r * Math.Sin(rad)) + 127);
         }
-        public C_StickPress(int theta) : base(theta)
+        public C_StickPress(double rad) : base(rad)
         {
-            x = (byte)((360 * Math.Cos(theta)) % 256);
-            y = (byte)((360 * Math.Sin(theta)) % 256);
+            x = (byte)((127 * Math.Cos(rad)) + 127);
+            y = (byte)((127 * Math.Sin(rad)) + 127);
         }
+
 
         public override string ToString()
         {

@@ -79,18 +79,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AI\IBot.cs" />
-    <Compile Include="AI\Lundgren.cs" />
+    <Compile Include="AI\Bot.cs" />
     <Compile Include="Controller\ButtonPress.cs" />
     <Compile Include="Controller\DeadZone.cs" />
     <Compile Include="Controller\MoveQueue.cs" />
     <Compile Include="Controller\Stick.cs" />
     <Compile Include="Controller\ControllerState.cs" />
-    <Compile Include="Controller\Driver.cs" />
     <Compile Include="Controller\Helpers\JoystickHelper.cs" />
     <Compile Include="Controller\Helpers\SystemHelper.cs" />
-    <Compile Include="Forms\Driver.cs" />
+    <Compile Include="Controller\vJoyFeeder\Driver.cs" />
     <Compile Include="Forms\Moves.cs" />
+    <Compile Include="Game\Menus\CharSelect.cs" />
     <Compile Include="Game\GameState.cs" />
     <Compile Include="Game\GameData.cs" />
     <Compile Include="Game\Helpers\Formats.cs" />
@@ -99,16 +98,16 @@
     <Compile Include="Ladder\Ladder.cs" />
     <Compile Include="Logs\Logging.cs" />
     <Compile Include="Game\Helpers\Memory.cs" />
-    <Compile Include="Forms\LundgrenForm.cs">
+    <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\LundgrenForm.Designer.cs">
-      <DependentUpon>LundgrenForm.cs</DependentUpon>
+    <Compile Include="Forms\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Forms\LundgrenForm.resx">
-      <DependentUpon>LundgrenForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

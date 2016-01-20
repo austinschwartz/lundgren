@@ -16,6 +16,8 @@ namespace Lundgren.Game
         private static readonly uint[] StaticAddress  = new uint[] { 0x80443080, 0x80443f10, 0, 0 };
         private static readonly uint[] CharNumAddress = new uint[] { 0x8042208F, 0x80422097, 0, 0 };
         private static readonly uint[] PercentAddress = new uint[] { 0x804430E1, 0x80443F71, 0, 0 };
+        private static readonly uint[] CursorXAddress = new uint[] { 0x81108DEC, 0x8110826C, 0, 0 };
+        private static readonly uint[] CursorYAddress = new uint[] { 0x81108DF0, 0x81108270, 0, 0 };
 
 
         /* Values */
@@ -26,11 +28,21 @@ namespace Lundgren.Game
         public byte StockNum = 0;
         public uint ActionNum = 0;
         public uint AnimationNum = 0;
+        public double CursorX = 0.0D;
+        public double CursorY = 0.0D;
 
         public String Character => GameData.ExternalChar(CharNum);
 
         public PlayerData(Player player)
         {
+            /* etc */
+            var xAsBytes = Memory.ReadBytesAsBytes(CursorXAddress[(int) player], 4, true);
+            if (xAsBytes != null)
+                CursorX = Memory.BytesToFloat(xAsBytes);
+            var yAsBytes = Memory.ReadBytesAsBytes(CursorYAddress[(int)player], 4, true);
+            if (xAsBytes != null)
+                CursorY = Memory.BytesToFloat(yAsBytes);
+
             /* Static character block */
             var staticBlock = Memory.ReadBytesAsBytes(StaticAddress[(int)player], 0xB4, false);
             if (staticBlock == null) return;
@@ -48,7 +60,10 @@ namespace Lundgren.Game
             if (temp == null) return;
 
             ActionNum = Memory.BytesToInt32(temp[115], temp[114], temp[113], temp[112]);
+            if (ActionNum > 500) ActionNum = 0;
             AnimationNum = Memory.BytesToInt32(temp[119], temp[118], temp[117], temp[116]);
+
+
 
 
         }

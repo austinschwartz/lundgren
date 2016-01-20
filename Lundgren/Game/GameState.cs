@@ -12,8 +12,11 @@ namespace Lundgren.Game
         public static PlayerData p1;
         public static PlayerData p2;
 
+        public static bool PlayersSwapped = false;
+
         public static byte StageNum = 99;
         public static byte PrevStageNum = 99;
+        public static byte P1NameEntryPosNum = 0;
 
         public static string TimerString;
         public static TimeSpan Timer;
@@ -48,17 +51,31 @@ namespace Lundgren.Game
         public static string P2X => p2.x.ToString();
         public static string P1Y => p1.y.ToString();
         public static string P2Y => p2.y.ToString();
+        public static string P1CursorX => p1.CursorX.ToString();
+        public static string P1CursorY => p1.CursorY.ToString();
+        public static string P2CursorX => p2.CursorX.ToString();
+        public static string P2CursorY => p2.CursorY.ToString();
+        public static string P1NameEntryPos => P1NameEntryPosNum.ToString();
 
 
         public static void GetState()
         {
             if (!Memory.Initialized)
                 Memory.Initialize();
-
-            p1 = new PlayerData(PlayerData.Player.One);
-            p2 = new PlayerData(PlayerData.Player.Two);
+            if (!PlayersSwapped)
+            {
+                p1 = new PlayerData(PlayerData.Player.One);
+                p2 = new PlayerData(PlayerData.Player.Two);
+            }
+            else
+            {
+                p1 = new PlayerData(PlayerData.Player.Two);
+                p2 = new PlayerData(PlayerData.Player.One);
+            }
 
             UpdateStage();
+
+            P1NameEntryPosNum = Memory.ReadByte(0x804904F3);
 
             TimerString = GetTime().ToString(@"hh\:mm\:ss");
 
@@ -112,6 +129,15 @@ namespace Lundgren.Game
             return frame;
         }
 
+        public static string Serialize()
+        {
+            return "";
+        }
 
+
+        public static void SwapPlayers()
+        {
+            PlayersSwapped = !PlayersSwapped;
+        }
     }
 }

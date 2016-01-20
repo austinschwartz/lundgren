@@ -1,6 +1,6 @@
 ﻿namespace Lundgren.Forms
 {
-    partial class LundgrenForm
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -71,6 +71,13 @@
             this.btnMove = new System.Windows.Forms.Button();
             this.btnDoubleLaser = new System.Windows.Forms.Button();
             this.btnFirefox = new System.Windows.Forms.Button();
+            this.p1CursorX = new System.Windows.Forms.TextBox();
+            this.p2CursorX = new System.Windows.Forms.TextBox();
+            this.p1CursorY = new System.Windows.Forms.TextBox();
+            this.p2CursorY = new System.Windows.Forms.TextBox();
+            this.p1NameEntryPos = new System.Windows.Forms.TextBox();
+            this.checkNotHosting = new System.Windows.Forms.CheckBox();
+            this.btnUpsmash = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.p1PictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.p2PictureBox)).BeginInit();
             this.SuspendLayout();
@@ -449,11 +456,74 @@
             this.btnFirefox.UseVisualStyleBackColor = true;
             this.btnFirefox.Click += new System.EventHandler(this.btnFirefox_Click);
             // 
-            // LundgrenForm
+            // p1CursorX
+            // 
+            this.p1CursorX.Location = new System.Drawing.Point(234, 313);
+            this.p1CursorX.Name = "p1CursorX";
+            this.p1CursorX.Size = new System.Drawing.Size(65, 20);
+            this.p1CursorX.TabIndex = 64;
+            // 
+            // p2CursorX
+            // 
+            this.p2CursorX.Location = new System.Drawing.Point(393, 313);
+            this.p2CursorX.Name = "p2CursorX";
+            this.p2CursorX.Size = new System.Drawing.Size(65, 20);
+            this.p2CursorX.TabIndex = 65;
+            // 
+            // p1CursorY
+            // 
+            this.p1CursorY.Location = new System.Drawing.Point(305, 313);
+            this.p1CursorY.Name = "p1CursorY";
+            this.p1CursorY.Size = new System.Drawing.Size(73, 20);
+            this.p1CursorY.TabIndex = 66;
+            // 
+            // p2CursorY
+            // 
+            this.p2CursorY.Location = new System.Drawing.Point(463, 313);
+            this.p2CursorY.Name = "p2CursorY";
+            this.p2CursorY.Size = new System.Drawing.Size(72, 20);
+            this.p2CursorY.TabIndex = 67;
+            // 
+            // p1NameEntryPos
+            // 
+            this.p1NameEntryPos.Location = new System.Drawing.Point(234, 339);
+            this.p1NameEntryPos.Name = "p1NameEntryPos";
+            this.p1NameEntryPos.Size = new System.Drawing.Size(65, 20);
+            this.p1NameEntryPos.TabIndex = 68;
+            // 
+            // checkNotHosting
+            // 
+            this.checkNotHosting.AutoSize = true;
+            this.checkNotHosting.Location = new System.Drawing.Point(427, 35);
+            this.checkNotHosting.Name = "checkNotHosting";
+            this.checkNotHosting.Size = new System.Drawing.Size(82, 17);
+            this.checkNotHosting.TabIndex = 69;
+            this.checkNotHosting.Text = "Not Hosting";
+            this.checkNotHosting.UseVisualStyleBackColor = true;
+            this.checkNotHosting.CheckedChanged += new System.EventHandler(this.checkNotHosting_CheckedChanged);
+            // 
+            // btnUpsmash
+            // 
+            this.btnUpsmash.Location = new System.Drawing.Point(542, 337);
+            this.btnUpsmash.Name = "btnUpsmash";
+            this.btnUpsmash.Size = new System.Drawing.Size(108, 35);
+            this.btnUpsmash.TabIndex = 70;
+            this.btnUpsmash.Text = "Run up upsmash";
+            this.btnUpsmash.UseVisualStyleBackColor = true;
+            this.btnUpsmash.Click += new System.EventHandler(this.btnUpsmash_Click);
+            // 
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(657, 380);
+            this.Controls.Add(this.btnUpsmash);
+            this.Controls.Add(this.checkNotHosting);
+            this.Controls.Add(this.p1NameEntryPos);
+            this.Controls.Add(this.p2CursorY);
+            this.Controls.Add(this.p1CursorY);
+            this.Controls.Add(this.p2CursorX);
+            this.Controls.Add(this.p1CursorX);
             this.Controls.Add(this.btnFirefox);
             this.Controls.Add(this.btnDoubleLaser);
             this.Controls.Add(this.btnMove);
@@ -497,7 +567,7 @@
             this.Controls.Add(this.multishineBtn);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Name = "LundgrenForm";
+            this.Name = "MainForm";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.p1PictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.p2PictureBox)).EndInit();
@@ -550,6 +620,13 @@
         private System.Windows.Forms.Button btnMove;
         private System.Windows.Forms.Button btnDoubleLaser;
         private System.Windows.Forms.Button btnFirefox;
+        private System.Windows.Forms.TextBox p1CursorX;
+        private System.Windows.Forms.TextBox p2CursorX;
+        private System.Windows.Forms.TextBox p1CursorY;
+        private System.Windows.Forms.TextBox p2CursorY;
+        private System.Windows.Forms.TextBox p1NameEntryPos;
+        private System.Windows.Forms.CheckBox checkNotHosting;
+        private System.Windows.Forms.Button btnUpsmash;
     }
 }
 

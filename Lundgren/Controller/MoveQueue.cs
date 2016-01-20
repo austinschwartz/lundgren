@@ -8,32 +8,36 @@ namespace Lundgren.Controller
 {
     public class MoveQueue
     {
-        Dictionary<int, ControllerState> moveDict;
+        private readonly Dictionary<int, ControllerState> _moveDict;
 
-        public MoveQueue()
+        private static MoveQueue _queue;
+
+        private MoveQueue()
         {
-            moveDict = new Dictionary<int, ControllerState>();
+            _moveDict = new Dictionary<int, ControllerState>();
         }
+
+        public static MoveQueue MQueue => _queue ?? (_queue = new MoveQueue());
 
         public bool HasFrame(int frame)
         {
-            return moveDict.ContainsKey(frame);
+            return _moveDict.ContainsKey(frame);
         }
 
         public ControllerState Get(int frame)
         {
-            return moveDict[frame];
+            return _moveDict[frame];
         }
 
         public void Clear()
         {
-            moveDict.Clear();
+            _moveDict.Clear();
         }
 
         public override string ToString()
         {
             var sb = new StringBuilder();
-            foreach (var keyPair in moveDict)
+            foreach (var keyPair in _moveDict)
             {
                 sb.Append($"{keyPair.Key} : {keyPair.Value}\n");
             }
@@ -42,29 +46,29 @@ namespace Lundgren.Controller
 
         public void Add(int frame, ControllerState currentState)
         {
-            moveDict.Add(frame, currentState);
+            _moveDict.Add(frame, currentState);
         }
 
         public bool Remove(int frame)
         {
-            return moveDict.Remove(frame);
+            return _moveDict.Remove(frame);
         }
 
         public void AddToFrame(int frame, ButtonPress bp)
         {
-            ControllerState currentState = HasFrame(frame) ? moveDict[frame] : new ControllerState(frame);
+            ControllerState currentState = HasFrame(frame) ? _moveDict[frame] : new ControllerState(frame);
             currentState.Add(bp);
-            moveDict[frame] = currentState;
+            _moveDict[frame] = currentState;
         }
 
         public void AddToFrame(int frame, HashSet<ButtonPress> set)
         {
-            ControllerState currentState = HasFrame(frame) ? moveDict[frame] : new ControllerState(frame);
+            ControllerState currentState = HasFrame(frame) ? _moveDict[frame] : new ControllerState(frame);
             foreach (ButtonPress bp in set)
             {
                 currentState.Add(bp);
             }
-            moveDict[frame] = currentState;
+            _moveDict[frame] = currentState;
         }
 
     }
