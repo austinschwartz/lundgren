@@ -30,10 +30,8 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.multishineBtn = new System.Windows.Forms.Button();
             this.startButton = new System.Windows.Forms.Button();
             this.logText = new System.Windows.Forms.TextBox();
-            this.charSelectBtn = new System.Windows.Forms.Button();
             this.btnA = new System.Windows.Forms.Button();
             this.btnB = new System.Windows.Forms.Button();
             this.btnY = new System.Windows.Forms.Button();
@@ -57,27 +55,20 @@
             this.p2percent = new System.Windows.Forms.TextBox();
             this.p1percent = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.waveshineBtn = new System.Windows.Forms.Button();
-            this.lolBtn = new System.Windows.Forms.Button();
             this.p1Animation = new System.Windows.Forms.TextBox();
             this.p2Animation = new System.Windows.Forms.TextBox();
-            this.btnThing = new System.Windows.Forms.Button();
             this.p1X = new System.Windows.Forms.TextBox();
             this.p1Y = new System.Windows.Forms.TextBox();
             this.p2X = new System.Windows.Forms.TextBox();
             this.p2Y = new System.Windows.Forms.TextBox();
             this.p1PictureBox = new System.Windows.Forms.PictureBox();
             this.p2PictureBox = new System.Windows.Forms.PictureBox();
-            this.btnMove = new System.Windows.Forms.Button();
-            this.btnDoubleLaser = new System.Windows.Forms.Button();
-            this.btnFirefox = new System.Windows.Forms.Button();
             this.p1CursorX = new System.Windows.Forms.TextBox();
             this.p2CursorX = new System.Windows.Forms.TextBox();
             this.p1CursorY = new System.Windows.Forms.TextBox();
             this.p2CursorY = new System.Windows.Forms.TextBox();
             this.p1NameEntryPos = new System.Windows.Forms.TextBox();
             this.checkNotHosting = new System.Windows.Forms.CheckBox();
-            this.btnUpsmash = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.p1PictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.p2PictureBox)).BeginInit();
             this.SuspendLayout();
@@ -85,7 +76,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(236, 238);
+            this.label1.Location = new System.Drawing.Point(240, 162);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(20, 13);
             this.label1.TabIndex = 6;
@@ -94,25 +85,15 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(401, 238);
+            this.label2.Location = new System.Drawing.Point(405, 162);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(20, 13);
             this.label2.TabIndex = 7;
             this.label2.Text = "P2";
             // 
-            // multishineBtn
-            // 
-            this.multishineBtn.Location = new System.Drawing.Point(542, 54);
-            this.multishineBtn.Name = "multishineBtn";
-            this.multishineBtn.Size = new System.Drawing.Size(108, 35);
-            this.multishineBtn.TabIndex = 22;
-            this.multishineBtn.Text = "Multishine";
-            this.multishineBtn.UseVisualStyleBackColor = true;
-            this.multishineBtn.Click += new System.EventHandler(this.multishineBtn_Click);
-            // 
             // startButton
             // 
-            this.startButton.Location = new System.Drawing.Point(94, 246);
+            this.startButton.Location = new System.Drawing.Point(94, 223);
             this.startButton.Name = "startButton";
             this.startButton.Size = new System.Drawing.Size(108, 35);
             this.startButton.TabIndex = 23;
@@ -122,26 +103,16 @@
             // 
             // logText
             // 
-            this.logText.Location = new System.Drawing.Point(12, 35);
+            this.logText.Location = new System.Drawing.Point(12, 12);
             this.logText.Multiline = true;
             this.logText.Name = "logText";
             this.logText.ReadOnly = true;
             this.logText.Size = new System.Drawing.Size(210, 202);
             this.logText.TabIndex = 24;
             // 
-            // charSelectBtn
-            // 
-            this.charSelectBtn.Location = new System.Drawing.Point(542, 12);
-            this.charSelectBtn.Name = "charSelectBtn";
-            this.charSelectBtn.Size = new System.Drawing.Size(108, 35);
-            this.charSelectBtn.TabIndex = 25;
-            this.charSelectBtn.Text = "Select Fox";
-            this.charSelectBtn.UseVisualStyleBackColor = true;
-            this.charSelectBtn.Click += new System.EventHandler(this.beginButton_Click);
-            // 
             // btnA
             // 
-            this.btnA.Location = new System.Drawing.Point(21, 339);
+            this.btnA.Location = new System.Drawing.Point(21, 316);
             this.btnA.Name = "btnA";
             this.btnA.Size = new System.Drawing.Size(34, 33);
             this.btnA.TabIndex = 26;
@@ -151,7 +122,7 @@
             // 
             // btnB
             // 
-            this.btnB.Location = new System.Drawing.Point(61, 339);
+            this.btnB.Location = new System.Drawing.Point(61, 316);
             this.btnB.Name = "btnB";
             this.btnB.Size = new System.Drawing.Size(34, 33);
             this.btnB.TabIndex = 27;
@@ -161,7 +132,7 @@
             // 
             // btnY
             // 
-            this.btnY.Location = new System.Drawing.Point(61, 300);
+            this.btnY.Location = new System.Drawing.Point(61, 277);
             this.btnY.Name = "btnY";
             this.btnY.Size = new System.Drawing.Size(34, 33);
             this.btnY.TabIndex = 28;
@@ -171,7 +142,7 @@
             // 
             // btnX
             // 
-            this.btnX.Location = new System.Drawing.Point(101, 300);
+            this.btnX.Location = new System.Drawing.Point(101, 277);
             this.btnX.Name = "btnX";
             this.btnX.Size = new System.Drawing.Size(34, 33);
             this.btnX.TabIndex = 29;
@@ -181,7 +152,7 @@
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(101, 339);
+            this.btnStart.Location = new System.Drawing.Point(101, 316);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(44, 33);
             this.btnStart.TabIndex = 30;
@@ -191,7 +162,7 @@
             // 
             // btnSUp
             // 
-            this.btnSUp.Location = new System.Drawing.Point(176, 300);
+            this.btnSUp.Location = new System.Drawing.Point(176, 277);
             this.btnSUp.Name = "btnSUp";
             this.btnSUp.Size = new System.Drawing.Size(22, 33);
             this.btnSUp.TabIndex = 31;
@@ -201,7 +172,7 @@
             // 
             // btnSDown
             // 
-            this.btnSDown.Location = new System.Drawing.Point(176, 343);
+            this.btnSDown.Location = new System.Drawing.Point(176, 320);
             this.btnSDown.Name = "btnSDown";
             this.btnSDown.Size = new System.Drawing.Size(22, 33);
             this.btnSDown.TabIndex = 32;
@@ -211,7 +182,7 @@
             // 
             // btnSLeft
             // 
-            this.btnSLeft.Location = new System.Drawing.Point(152, 321);
+            this.btnSLeft.Location = new System.Drawing.Point(152, 298);
             this.btnSLeft.Name = "btnSLeft";
             this.btnSLeft.Size = new System.Drawing.Size(18, 33);
             this.btnSLeft.TabIndex = 33;
@@ -221,7 +192,7 @@
             // 
             // btnSRight
             // 
-            this.btnSRight.Location = new System.Drawing.Point(204, 321);
+            this.btnSRight.Location = new System.Drawing.Point(204, 298);
             this.btnSRight.Name = "btnSRight";
             this.btnSRight.Size = new System.Drawing.Size(18, 33);
             this.btnSRight.TabIndex = 34;
@@ -231,21 +202,21 @@
             // 
             // frame
             // 
-            this.frame.Location = new System.Drawing.Point(274, 5);
+            this.frame.Location = new System.Drawing.Point(431, 303);
             this.frame.Name = "frame";
             this.frame.Size = new System.Drawing.Size(100, 20);
             this.frame.TabIndex = 35;
             // 
             // timer
             // 
-            this.timer.Location = new System.Drawing.Point(274, 31);
+            this.timer.Location = new System.Drawing.Point(431, 329);
             this.timer.Name = "timer";
             this.timer.Size = new System.Drawing.Size(101, 20);
             this.timer.TabIndex = 36;
             // 
             // stage
             // 
-            this.stage.Location = new System.Drawing.Point(274, 55);
+            this.stage.Location = new System.Drawing.Point(431, 353);
             this.stage.Name = "stage";
             this.stage.Size = new System.Drawing.Size(101, 20);
             this.stage.TabIndex = 37;
@@ -253,7 +224,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(232, 34);
+            this.label3.Location = new System.Drawing.Point(389, 332);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(36, 13);
             this.label3.TabIndex = 38;
@@ -262,7 +233,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(232, 58);
+            this.label4.Location = new System.Drawing.Point(389, 356);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(38, 13);
             this.label4.TabIndex = 39;
@@ -270,7 +241,7 @@
             // 
             // p1stocks
             // 
-            this.p1stocks.Location = new System.Drawing.Point(305, 235);
+            this.p1stocks.Location = new System.Drawing.Point(309, 159);
             this.p1stocks.Name = "p1stocks";
             this.p1stocks.Size = new System.Drawing.Size(30, 20);
             this.p1stocks.TabIndex = 40;
@@ -278,7 +249,7 @@
             // p2stocks
             // 
             this.p2stocks.Cursor = System.Windows.Forms.Cursors.Default;
-            this.p2stocks.Location = new System.Drawing.Point(463, 235);
+            this.p2stocks.Location = new System.Drawing.Point(467, 159);
             this.p2stocks.Name = "p2stocks";
             this.p2stocks.Size = new System.Drawing.Size(29, 20);
             this.p2stocks.TabIndex = 41;
@@ -286,7 +257,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(498, 238);
+            this.label5.Location = new System.Drawing.Point(502, 162);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(40, 13);
             this.label5.TabIndex = 42;
@@ -295,7 +266,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(341, 238);
+            this.label6.Location = new System.Drawing.Point(345, 162);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(40, 13);
             this.label6.TabIndex = 43;
@@ -303,28 +274,28 @@
             // 
             // p1char
             // 
-            this.p1char.Location = new System.Drawing.Point(305, 261);
+            this.p1char.Location = new System.Drawing.Point(309, 185);
             this.p1char.Name = "p1char";
             this.p1char.Size = new System.Drawing.Size(73, 20);
             this.p1char.TabIndex = 44;
             // 
             // p2char
             // 
-            this.p2char.Location = new System.Drawing.Point(463, 261);
+            this.p2char.Location = new System.Drawing.Point(467, 185);
             this.p2char.Name = "p2char";
             this.p2char.Size = new System.Drawing.Size(72, 20);
             this.p2char.TabIndex = 45;
             // 
             // p2percent
             // 
-            this.p2percent.Location = new System.Drawing.Point(427, 235);
+            this.p2percent.Location = new System.Drawing.Point(431, 159);
             this.p2percent.Name = "p2percent";
             this.p2percent.Size = new System.Drawing.Size(29, 20);
             this.p2percent.TabIndex = 46;
             // 
             // p1percent
             // 
-            this.p1percent.Location = new System.Drawing.Point(270, 235);
+            this.p1percent.Location = new System.Drawing.Point(274, 159);
             this.p1percent.Name = "p1percent";
             this.p1percent.Size = new System.Drawing.Size(29, 20);
             this.p1percent.TabIndex = 48;
@@ -332,87 +303,57 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(221, 12);
+            this.label7.Location = new System.Drawing.Point(378, 310);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(46, 13);
             this.label7.TabIndex = 49;
             this.label7.Text = "Frame #";
             // 
-            // waveshineBtn
-            // 
-            this.waveshineBtn.Location = new System.Drawing.Point(542, 95);
-            this.waveshineBtn.Name = "waveshineBtn";
-            this.waveshineBtn.Size = new System.Drawing.Size(108, 35);
-            this.waveshineBtn.TabIndex = 50;
-            this.waveshineBtn.Text = "Waveshine";
-            this.waveshineBtn.UseVisualStyleBackColor = true;
-            this.waveshineBtn.Click += new System.EventHandler(this.waveshineBtn_Click);
-            // 
-            // lolBtn
-            // 
-            this.lolBtn.Location = new System.Drawing.Point(542, 136);
-            this.lolBtn.Name = "lolBtn";
-            this.lolBtn.Size = new System.Drawing.Size(108, 35);
-            this.lolBtn.TabIndex = 51;
-            this.lolBtn.Text = "lol";
-            this.lolBtn.UseVisualStyleBackColor = true;
-            this.lolBtn.Click += new System.EventHandler(this.lolBtn_Click);
-            // 
             // p1Animation
             // 
-            this.p1Animation.Location = new System.Drawing.Point(305, 287);
+            this.p1Animation.Location = new System.Drawing.Point(309, 211);
             this.p1Animation.Name = "p1Animation";
             this.p1Animation.Size = new System.Drawing.Size(73, 20);
             this.p1Animation.TabIndex = 52;
             // 
             // p2Animation
             // 
-            this.p2Animation.Location = new System.Drawing.Point(463, 287);
+            this.p2Animation.Location = new System.Drawing.Point(467, 211);
             this.p2Animation.Name = "p2Animation";
             this.p2Animation.Size = new System.Drawing.Size(72, 20);
             this.p2Animation.TabIndex = 53;
             // 
-            // btnThing
-            // 
-            this.btnThing.Location = new System.Drawing.Point(542, 177);
-            this.btnThing.Name = "btnThing";
-            this.btnThing.Size = new System.Drawing.Size(108, 35);
-            this.btnThing.TabIndex = 54;
-            this.btnThing.Text = "thing";
-            this.btnThing.UseVisualStyleBackColor = true;
-            this.btnThing.Click += new System.EventHandler(this.btnThing_Click);
-            // 
             // p1X
             // 
-            this.p1X.Location = new System.Drawing.Point(235, 261);
+            this.p1X.Location = new System.Drawing.Point(239, 185);
             this.p1X.Name = "p1X";
             this.p1X.Size = new System.Drawing.Size(64, 20);
             this.p1X.TabIndex = 55;
             // 
             // p1Y
             // 
-            this.p1Y.Location = new System.Drawing.Point(234, 287);
+            this.p1Y.Location = new System.Drawing.Point(238, 211);
             this.p1Y.Name = "p1Y";
             this.p1Y.Size = new System.Drawing.Size(65, 20);
             this.p1Y.TabIndex = 56;
             // 
             // p2X
             // 
-            this.p2X.Location = new System.Drawing.Point(393, 261);
+            this.p2X.Location = new System.Drawing.Point(397, 185);
             this.p2X.Name = "p2X";
             this.p2X.Size = new System.Drawing.Size(64, 20);
             this.p2X.TabIndex = 57;
             // 
             // p2Y
             // 
-            this.p2Y.Location = new System.Drawing.Point(393, 287);
+            this.p2Y.Location = new System.Drawing.Point(397, 211);
             this.p2Y.Name = "p2Y";
             this.p2Y.Size = new System.Drawing.Size(65, 20);
             this.p2Y.TabIndex = 58;
             // 
             // p1PictureBox
             // 
-            this.p1PictureBox.Location = new System.Drawing.Point(239, 88);
+            this.p1PictureBox.Location = new System.Drawing.Point(243, 12);
             this.p1PictureBox.Name = "p1PictureBox";
             this.p1PictureBox.Size = new System.Drawing.Size(139, 141);
             this.p1PictureBox.TabIndex = 59;
@@ -420,73 +361,43 @@
             // 
             // p2PictureBox
             // 
-            this.p2PictureBox.Location = new System.Drawing.Point(396, 88);
+            this.p2PictureBox.Location = new System.Drawing.Point(400, 12);
             this.p2PictureBox.Name = "p2PictureBox";
             this.p2PictureBox.Size = new System.Drawing.Size(139, 141);
             this.p2PictureBox.TabIndex = 60;
             this.p2PictureBox.TabStop = false;
             // 
-            // btnMove
-            // 
-            this.btnMove.Location = new System.Drawing.Point(542, 216);
-            this.btnMove.Name = "btnMove";
-            this.btnMove.Size = new System.Drawing.Size(108, 35);
-            this.btnMove.TabIndex = 61;
-            this.btnMove.Text = "move towards ";
-            this.btnMove.UseVisualStyleBackColor = true;
-            this.btnMove.Click += new System.EventHandler(this.btnMove_Click);
-            // 
-            // btnDoubleLaser
-            // 
-            this.btnDoubleLaser.Location = new System.Drawing.Point(542, 257);
-            this.btnDoubleLaser.Name = "btnDoubleLaser";
-            this.btnDoubleLaser.Size = new System.Drawing.Size(108, 35);
-            this.btnDoubleLaser.TabIndex = 62;
-            this.btnDoubleLaser.Text = "Double Laser";
-            this.btnDoubleLaser.UseVisualStyleBackColor = true;
-            this.btnDoubleLaser.Click += new System.EventHandler(this.btnDoubleLaser_Click);
-            // 
-            // btnFirefox
-            // 
-            this.btnFirefox.Location = new System.Drawing.Point(542, 298);
-            this.btnFirefox.Name = "btnFirefox";
-            this.btnFirefox.Size = new System.Drawing.Size(108, 35);
-            this.btnFirefox.TabIndex = 63;
-            this.btnFirefox.Text = "Firefox to center";
-            this.btnFirefox.UseVisualStyleBackColor = true;
-            this.btnFirefox.Click += new System.EventHandler(this.btnFirefox_Click);
-            // 
             // p1CursorX
             // 
-            this.p1CursorX.Location = new System.Drawing.Point(234, 313);
+            this.p1CursorX.Location = new System.Drawing.Point(238, 237);
             this.p1CursorX.Name = "p1CursorX";
             this.p1CursorX.Size = new System.Drawing.Size(65, 20);
             this.p1CursorX.TabIndex = 64;
             // 
             // p2CursorX
             // 
-            this.p2CursorX.Location = new System.Drawing.Point(393, 313);
+            this.p2CursorX.Location = new System.Drawing.Point(397, 237);
             this.p2CursorX.Name = "p2CursorX";
             this.p2CursorX.Size = new System.Drawing.Size(65, 20);
             this.p2CursorX.TabIndex = 65;
             // 
             // p1CursorY
             // 
-            this.p1CursorY.Location = new System.Drawing.Point(305, 313);
+            this.p1CursorY.Location = new System.Drawing.Point(309, 237);
             this.p1CursorY.Name = "p1CursorY";
             this.p1CursorY.Size = new System.Drawing.Size(73, 20);
             this.p1CursorY.TabIndex = 66;
             // 
             // p2CursorY
             // 
-            this.p2CursorY.Location = new System.Drawing.Point(463, 313);
+            this.p2CursorY.Location = new System.Drawing.Point(467, 237);
             this.p2CursorY.Name = "p2CursorY";
             this.p2CursorY.Size = new System.Drawing.Size(72, 20);
             this.p2CursorY.TabIndex = 67;
             // 
             // p1NameEntryPos
             // 
-            this.p1NameEntryPos.Location = new System.Drawing.Point(234, 339);
+            this.p1NameEntryPos.Location = new System.Drawing.Point(238, 263);
             this.p1NameEntryPos.Name = "p1NameEntryPos";
             this.p1NameEntryPos.Size = new System.Drawing.Size(65, 20);
             this.p1NameEntryPos.TabIndex = 68;
@@ -494,7 +405,7 @@
             // checkNotHosting
             // 
             this.checkNotHosting.AutoSize = true;
-            this.checkNotHosting.Location = new System.Drawing.Point(427, 35);
+            this.checkNotHosting.Location = new System.Drawing.Point(243, 336);
             this.checkNotHosting.Name = "checkNotHosting";
             this.checkNotHosting.Size = new System.Drawing.Size(82, 17);
             this.checkNotHosting.TabIndex = 69;
@@ -502,42 +413,25 @@
             this.checkNotHosting.UseVisualStyleBackColor = true;
             this.checkNotHosting.CheckedChanged += new System.EventHandler(this.checkNotHosting_CheckedChanged);
             // 
-            // btnUpsmash
-            // 
-            this.btnUpsmash.Location = new System.Drawing.Point(542, 337);
-            this.btnUpsmash.Name = "btnUpsmash";
-            this.btnUpsmash.Size = new System.Drawing.Size(108, 35);
-            this.btnUpsmash.TabIndex = 70;
-            this.btnUpsmash.Text = "Run up upsmash";
-            this.btnUpsmash.UseVisualStyleBackColor = true;
-            this.btnUpsmash.Click += new System.EventHandler(this.btnUpsmash_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(657, 380);
-            this.Controls.Add(this.btnUpsmash);
+            this.ClientSize = new System.Drawing.Size(550, 380);
             this.Controls.Add(this.checkNotHosting);
             this.Controls.Add(this.p1NameEntryPos);
             this.Controls.Add(this.p2CursorY);
             this.Controls.Add(this.p1CursorY);
             this.Controls.Add(this.p2CursorX);
             this.Controls.Add(this.p1CursorX);
-            this.Controls.Add(this.btnFirefox);
-            this.Controls.Add(this.btnDoubleLaser);
-            this.Controls.Add(this.btnMove);
             this.Controls.Add(this.p2PictureBox);
             this.Controls.Add(this.p1PictureBox);
             this.Controls.Add(this.p2Y);
             this.Controls.Add(this.p2X);
             this.Controls.Add(this.p1Y);
             this.Controls.Add(this.p1X);
-            this.Controls.Add(this.btnThing);
             this.Controls.Add(this.p2Animation);
             this.Controls.Add(this.p1Animation);
-            this.Controls.Add(this.lolBtn);
-            this.Controls.Add(this.waveshineBtn);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.p1percent);
             this.Controls.Add(this.p2percent);
@@ -561,10 +455,8 @@
             this.Controls.Add(this.btnY);
             this.Controls.Add(this.btnB);
             this.Controls.Add(this.btnA);
-            this.Controls.Add(this.charSelectBtn);
             this.Controls.Add(this.logText);
             this.Controls.Add(this.startButton);
-            this.Controls.Add(this.multishineBtn);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "MainForm";
@@ -579,10 +471,8 @@
         #endregion
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button multishineBtn;
         private System.Windows.Forms.Button startButton;
         private System.Windows.Forms.TextBox logText;
-        private System.Windows.Forms.Button charSelectBtn;
         private System.Windows.Forms.Button btnA;
         private System.Windows.Forms.Button btnB;
         private System.Windows.Forms.Button btnY;
@@ -606,27 +496,20 @@
         private System.Windows.Forms.TextBox p2percent;
         private System.Windows.Forms.TextBox p1percent;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Button waveshineBtn;
-        private System.Windows.Forms.Button lolBtn;
         private System.Windows.Forms.TextBox p1Animation;
         private System.Windows.Forms.TextBox p2Animation;
-        private System.Windows.Forms.Button btnThing;
         private System.Windows.Forms.TextBox p1X;
         private System.Windows.Forms.TextBox p1Y;
         private System.Windows.Forms.TextBox p2X;
         private System.Windows.Forms.TextBox p2Y;
         private System.Windows.Forms.PictureBox p1PictureBox;
         private System.Windows.Forms.PictureBox p2PictureBox;
-        private System.Windows.Forms.Button btnMove;
-        private System.Windows.Forms.Button btnDoubleLaser;
-        private System.Windows.Forms.Button btnFirefox;
         private System.Windows.Forms.TextBox p1CursorX;
         private System.Windows.Forms.TextBox p2CursorX;
         private System.Windows.Forms.TextBox p1CursorY;
         private System.Windows.Forms.TextBox p2CursorY;
         private System.Windows.Forms.TextBox p1NameEntryPos;
         private System.Windows.Forms.CheckBox checkNotHosting;
-        private System.Windows.Forms.Button btnUpsmash;
     }
 }
 

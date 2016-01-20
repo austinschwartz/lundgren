@@ -22,6 +22,7 @@ namespace Lundgren.Forms
 
         private readonly System.Timers.Timer        _gameTimer = new System.Timers.Timer();
         private readonly System.Windows.Forms.Timer _formTimer = new System.Windows.Forms.Timer();
+        public Driver Driver { get; }
 
         public MainForm()
         {
@@ -42,12 +43,12 @@ namespace Lundgren.Forms
             Driver.DriverLog += Log;
             Driver.InputLog += Log;
             JoystickHelper.JoystickLog += Log;
-
             Bot.Instance._log = Log;
-        }
-        
-        public Driver Driver { get; }
 
+            ActionForm af = new ActionForm();
+
+            af.Show();
+        }
 
         void MoveTimer(Object sender, EventArgs e)
         {
@@ -123,50 +124,12 @@ namespace Lundgren.Forms
                 Invoke(hnd, new object[] { sender, e });
                 return;
             }
-            logText.AppendText(e.Text + Environment.NewLine);
-            logText.SelectionStart = logText.TextLength;
-            logText.ScrollToCaret();
+            //logText.AppendText(e.Text + Environment.NewLine);
+            //logText.SelectionStart = logText.TextLength;
+            //logText.ScrollToCaret();
         }
 
 
-        private void beginButton_Click(object sender, EventArgs e)
-        {
-            var threadDelegate = new ThreadStart(Moves.AttemptToPickFox20XX);
-            var t = new Thread(threadDelegate);
-            Log(null, new Logging.LogEventArgs("Attempting to pick fox."));
-            t.Start();
-        }
-
-        private void waveshineBtn_Click(object sender, EventArgs e)
-        {
-            var threadDelegate = new ThreadStart(Moves.MoveWaveshine);
-            var t = new Thread(threadDelegate);
-            Log(null, new Logging.LogEventArgs("Attempting to waveshine."));
-            t.Start();
-        }
-
-
-        private void multishineBtn_Click(object sender, EventArgs e)
-        {
-            /*
-            var threadDelegate = new ThreadStart(Moves.MoveMultiShine);
-            var t = new Thread(threadDelegate);
-            Log(null, new Logging.LogEventArgs("Attempting to multishine."));
-            t.Start();
-            */
-            Moves.MoveMultiShine();
-        }
-
-
-        private void lolBtn_Click(object sender, EventArgs e)
-        {
-            Moves.MoveLol();
-        }
-
-        private void btnMove_Click(object sender, EventArgs e)
-        {
-            Moves.MoveTowards();
-        }
 
         /* Side buttons */
 
@@ -217,11 +180,6 @@ namespace Lundgren.Forms
             MQueue.AddToFrame(GameState.LastFrame + 15, new StickPress(Direction.W));
         }
 
-        private void btnThing_Click(object sender, EventArgs e)
-        {
-            GameState.P1Data();
-        }
-
         private void startButton_Click(object sender, EventArgs e)
         {
             if (!Driver.run)
@@ -238,24 +196,9 @@ namespace Lundgren.Forms
             }
         }
 
-        private void btnDoubleLaser_Click(object sender, EventArgs e)
-        {
-            Moves.DoubleLaser();
-        }
-
-        private void btnFirefox_Click(object sender, EventArgs e)
-        {
-            Moves.Firefox();
-        }
-
         private void checkNotHosting_CheckedChanged(object sender, EventArgs e)
         {
             GameState.SwapPlayers();
-        }
-
-        private void btnUpsmash_Click(object sender, EventArgs e)
-        {
-            Moves.RunUpUpsmash();
         }
     }
 }
