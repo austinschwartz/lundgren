@@ -76,10 +76,10 @@ namespace Lundgren
                 {
                     DriverLog(null, new Logging.LogEventArgs("Driver successfully started, entering input loop."));
                     run = true;
+
                     while (run)
                     {
-                        //Debug.WriteLine(gcn1ok + " " + GameState.Frame + " " + GameState.LastFrame);
-                        if (gcn1ok && GameState.LastFrame != GameState.CurrentFrame)
+                        if (gcn1ok)
                         {
                             JoystickHelper.setJoystick(ref gcn1, _lundgrenForm.CurrentAI.State, 1, gcn1DZ);
                         }

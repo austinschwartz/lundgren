@@ -41,8 +41,8 @@ namespace Lundgren.Game
         public static string P2Stocks => p2.StockNum.ToString();
         public static string P1Percent => p1.Percent.ToString();
         public static string P2Percent => p2.Percent.ToString();
-        public static string P1Action => GameData.Action(p1.ActionNum);
-        public static string P2Action => GameData.Action(p2.ActionNum);
+        public static string P1Action => p1.ActionNum + " " + GameData.Action(p1.ActionNum);
+        public static string P2Action => p2.ActionNum + " " + GameData.Action(p2.ActionNum);
         public static string StageString => GameData.Stage(StageNum);
         public static string P1X => p1.x.ToString();
         public static string P2X => p2.x.ToString();

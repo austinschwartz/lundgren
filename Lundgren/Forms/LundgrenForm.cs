@@ -22,7 +22,6 @@ namespace Lundgren.Forms
         private readonly System.Windows.Forms.Timer _formTimer = new System.Windows.Forms.Timer();
 
         public IBot CurrentAI;
-        private readonly Moves _moves;
 
         public LundgrenForm()
         {
@@ -45,23 +44,10 @@ namespace Lundgren.Forms
             JoystickHelper.JoystickLog += Log;
 
             CurrentAI = new AI.Lundgren();
-            _moves = new Moves(this);
         }
         
         public Driver Driver { get; }
 
-        public Moves Moves
-        {
-            get { return _moves; }
-        }
-
-        private void LogFrameState(int frameNum, ControllerState controllerState, bool rem)
-        {
-            Log(null,
-                !rem
-                    ? new Logging.LogEventArgs($"Something went wrong on frame {frameNum}")
-                    : new Logging.LogEventArgs($"F: {frameNum} - {controllerState}"));
-        }
 
         void MoveTimer(Object sender, EventArgs e)
         {
@@ -129,7 +115,7 @@ namespace Lundgren.Forms
 
         private void beginButton_Click(object sender, EventArgs e)
         {
-            var threadDelegate = new ThreadStart(Moves.AttemptToPickFox20XX);
+            var threadDelegate = new ThreadStart(CurrentAI.MovesInstance.AttemptToPickFox20XX);
             var t = new Thread(threadDelegate);
             Log(null, new Logging.LogEventArgs("Attempting to pick fox."));
             t.Start();
@@ -137,7 +123,7 @@ namespace Lundgren.Forms
 
         private void waveshineBtn_Click(object sender, EventArgs e)
         {
-            var threadDelegate = new ThreadStart(Moves.MoveWaveshine);
+            var threadDelegate = new ThreadStart(CurrentAI.MovesInstance.MoveWaveshine);
             var t = new Thread(threadDelegate);
             Log(null, new Logging.LogEventArgs("Attempting to waveshine."));
             t.Start();
@@ -152,18 +138,18 @@ namespace Lundgren.Forms
             Log(null, new Logging.LogEventArgs("Attempting to multishine."));
             t.Start();
             */
-            Moves.MoveMultiShine();
+            CurrentAI.MovesInstance.MoveMultiShine();
         }
 
 
         private void lolBtn_Click(object sender, EventArgs e)
         {
-            Moves.MoveLol();
+            CurrentAI.MovesInstance.MoveLol();
         }
 
         private void btnMove_Click(object sender, EventArgs e)
         {
-            Moves.MoveTowards();
+            CurrentAI.MovesInstance.MoveTowards();
         }
 
         /* Side buttons */
@@ -234,6 +220,16 @@ namespace Lundgren.Forms
             {
                 Log(null, new Logging.LogEventArgs("Driver is already started."));
             }
+        }
+
+        private void btnDoubleLaser_Click(object sender, EventArgs e)
+        {
+            CurrentAI.MovesInstance.DoubleLaser();
+        }
+
+        private void btnFirefox_Click(object sender, EventArgs e)
+        {
+            CurrentAI.MovesInstance.Firefox();
         }
     }
 }

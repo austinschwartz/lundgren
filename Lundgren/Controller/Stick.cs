@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,6 +41,27 @@ namespace Lundgren.Controller
             y = (byte)(Center.Item2 + offsets.Item2);
         }
 
+        public StickPress(int radius, int theta)
+        {
+            x = (byte)((radius * Math.Cos(theta)) % 256);
+            y = (byte)((radius * Math.Sin(theta)) % 256);
+        }
+        public StickPress(int theta)
+        {
+            x = (byte)((360 * Math.Cos(theta)) % 256);
+            y = (byte)((360 * Math.Sin(theta)) % 256);
+        }
+
+        public StickPress(double x1, double y1, double x2, double y2)
+        {
+            var deltaX = x1 - x2;
+            var deltaY = y1 - y2;
+            var rad = Math.Atan2(deltaY, deltaX);
+            double r = 127;
+            x = (byte)((r * Math.Cos(rad)) + 127);
+            y = (byte)((r * Math.Sin(rad)) + 127);
+        }
+
         public override string ToString()
         {
             return $"ANA: {x} {y} ";
@@ -75,6 +97,17 @@ namespace Lundgren.Controller
             this.x = (byte)(Center.Item1 + offsets.Item1);
             this.y = (byte)(Center.Item2 + offsets.Item2);
         }
+        public C_StickPress(int radius, int theta) : base(radius, theta)
+        {
+            x = (byte)((radius * Math.Cos(theta)) % 256);
+            y = (byte)((radius * Math.Sin(theta)) % 256);
+        }
+        public C_StickPress(int theta) : base(theta)
+        {
+            x = (byte)((360 * Math.Cos(theta)) % 256);
+            y = (byte)((360 * Math.Sin(theta)) % 256);
+        }
+
         public override string ToString()
         {
             return $"C: {x} {y} ";

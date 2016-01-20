@@ -56,5 +56,16 @@ namespace Lundgren.Controller
             currentState.Add(bp);
             moveDict[frame] = currentState;
         }
+
+        public void AddToFrame(int frame, HashSet<ButtonPress> set)
+        {
+            ControllerState currentState = HasFrame(frame) ? moveDict[frame] : new ControllerState(frame);
+            foreach (ButtonPress bp in set)
+            {
+                currentState.Add(bp);
+            }
+            moveDict[frame] = currentState;
+        }
+
     }
 }

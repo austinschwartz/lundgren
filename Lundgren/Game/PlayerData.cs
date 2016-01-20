@@ -71,6 +71,7 @@ namespace Lundgren.Game
                     return true;
             return false;
         }
+
         public bool OnRightLedge(StageData stage)
         {
             if (Math.Abs(this.x - stage.RightEdge.x) < 0.1)

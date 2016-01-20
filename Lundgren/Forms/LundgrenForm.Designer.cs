@@ -69,6 +69,8 @@
             this.p1PictureBox = new System.Windows.Forms.PictureBox();
             this.p2PictureBox = new System.Windows.Forms.PictureBox();
             this.btnMove = new System.Windows.Forms.Button();
+            this.btnDoubleLaser = new System.Windows.Forms.Button();
+            this.btnFirefox = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.p1PictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.p2PictureBox)).BeginInit();
             this.SuspendLayout();
@@ -427,11 +429,33 @@
             this.btnMove.UseVisualStyleBackColor = true;
             this.btnMove.Click += new System.EventHandler(this.btnMove_Click);
             // 
+            // btnDoubleLaser
+            // 
+            this.btnDoubleLaser.Location = new System.Drawing.Point(542, 257);
+            this.btnDoubleLaser.Name = "btnDoubleLaser";
+            this.btnDoubleLaser.Size = new System.Drawing.Size(108, 35);
+            this.btnDoubleLaser.TabIndex = 62;
+            this.btnDoubleLaser.Text = "Double Laser";
+            this.btnDoubleLaser.UseVisualStyleBackColor = true;
+            this.btnDoubleLaser.Click += new System.EventHandler(this.btnDoubleLaser_Click);
+            // 
+            // btnFirefox
+            // 
+            this.btnFirefox.Location = new System.Drawing.Point(542, 298);
+            this.btnFirefox.Name = "btnFirefox";
+            this.btnFirefox.Size = new System.Drawing.Size(108, 35);
+            this.btnFirefox.TabIndex = 63;
+            this.btnFirefox.Text = "Firefox to center";
+            this.btnFirefox.UseVisualStyleBackColor = true;
+            this.btnFirefox.Click += new System.EventHandler(this.btnFirefox_Click);
+            // 
             // LundgrenForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(657, 380);
+            this.Controls.Add(this.btnFirefox);
+            this.Controls.Add(this.btnDoubleLaser);
             this.Controls.Add(this.btnMove);
             this.Controls.Add(this.p2PictureBox);
             this.Controls.Add(this.p1PictureBox);
@@ -524,6 +548,8 @@
         private System.Windows.Forms.PictureBox p1PictureBox;
         private System.Windows.Forms.PictureBox p2PictureBox;
         private System.Windows.Forms.Button btnMove;
+        private System.Windows.Forms.Button btnDoubleLaser;
+        private System.Windows.Forms.Button btnFirefox;
     }
 }
 

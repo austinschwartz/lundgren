@@ -37,7 +37,6 @@ namespace Lundgren.Game
             "Kongo Jungle - Past",
             "Random",
             "??"
-
         };
 
         // https://code.google.com/p/vgce/wiki/ssbmCharID
@@ -115,7 +114,7 @@ namespace Lundgren.Game
 
         private static readonly string[] _animationID =
         {
-            "DeadDown",
+            "DeadDown", // 0
             "DeadLeft",
             "DeadRight",
             "DeadUp",
@@ -125,7 +124,7 @@ namespace Lundgren.Game
             "DeadUpFallHitCamera",
             "DeadUpFallHitCameraFlat",
             "DeadUpFallIce",
-            "DeadUpFallHitCameraIce",
+            "DeadUpFallHitCameraIce", // 10
             "Sleep",
             "Rebirth",
             "RebirthWait",
@@ -135,7 +134,7 @@ namespace Lundgren.Game
             "WalkFast",
             "Turn",
             "TurnRun",
-            "Dash",
+            "Dash", // 20
             "Run",
             "RunDirect",
             "RunBrake",
@@ -145,7 +144,7 @@ namespace Lundgren.Game
             "JumpAerialF",
             "JumpAerialB",
             "Fall",
-            "FallF",
+            "FallF", // 30
             "FallB",
             "FallAerial",
             "FallAerialF",
@@ -155,7 +154,7 @@ namespace Lundgren.Game
             "FallSpecialB",
             "DamageFall",
             "Squat",
-            "SquatWait",
+            "SquatWait", // 40
             "SquatRv",
             "Landing",
             "LandingFallSpecial",
@@ -165,7 +164,7 @@ namespace Lundgren.Game
             "Attack100Start",
             "Attack100Loop",
             "Attack100End",
-            "AttackDash",
+            "AttackDash", // 50
             "AttackS3Hi",
             "AttackS3HiS",
             "AttackS3S",
@@ -175,7 +174,7 @@ namespace Lundgren.Game
             "AttackLw3",
             "AttackS4Hi",
             "AttackS4HiS",
-            "AttackS4S",
+            "AttackS4S", // 60
             "AttackS4LwS",
             "AttackS4Lw",
             "AttackHi4",
@@ -185,7 +184,7 @@ namespace Lundgren.Game
             "AttackAirB",
             "AttackAirHi",
             "AttackAirLw",
-            "LandingAirN",
+            "LandingAirN", // 70
             "LandingAirF",
             "LandingAirB",
             "LandingAirHi",
@@ -195,7 +194,7 @@ namespace Lundgren.Game
             "DamageHi3",
             "DamageN1",
             "DamageN2",
-            "DamageN3",
+            "DamageN3", // 80
             "DamageLw1",
             "DamageLw2",
             "DamageLw3",
@@ -205,7 +204,7 @@ namespace Lundgren.Game
             "DamageFlyHi",
             "DamageFlyN",
             "DamageFlyLw",
-            "DamageFlyTop",
+            "DamageFlyTop", // 90
             "DamageFlyRoll",
             "LightGet",
             "HeavyGet",
@@ -215,7 +214,7 @@ namespace Lundgren.Game
             "LightThrowLw",
             "LightThrowDash",
             "LightThrowDrop",
-            "LightThrowAirF",
+            "LightThrowAirF", // 100
             "LightThrowAirB",
             "LightThrowAirHi",
             "LightThrowAirLw",
