@@ -1,6 +1,8 @@
 # lundgren
 Written in C++/C#
 
-![](https://giant.gfycat.com/SerpentineVengefulGallinule.gif)
+http://gfycat.com/SerpentineVengefulGallinule
+
+![](https://i.gyazo.com/ff4a5000ec27565aa44c737858a5f117.gif)
 
 ![https://gfycat.com/MintyAcidicBushbaby](https://giant.gfycat.com/MintyAcidicBushbaby.gif)
